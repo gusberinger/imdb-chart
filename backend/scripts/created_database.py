@@ -2,7 +2,8 @@ import gzip
 import csv
 import getpass
 from tqdm import tqdm
-from dataclasses import dataclass
+from sqlalchemy.engine.base import Engine
+from typing import Dict, TypedDict
 from constants import (
     RATINGS_FILEPATH,
     EPISODE_FILEPATH,
@@ -20,9 +21,6 @@ from sqlalchemy import (
     Float,
     create_engine,
 )
-
-
-from typing import Dict, TypedDict
 
 
 class EpisodeIndexDict(TypedDict):
@@ -98,7 +96,7 @@ def create_episodes_index_dict() -> Dict[str, EpisodeIndexDict]:
                     "episode_number": episode_number,
                 }
             )
-            
+
     return episodes_dict
 
 
@@ -117,7 +115,7 @@ def create_episode_basics_dict() -> Dict[str, EpisodeBasicsDict]:
 
             if row["titleType"] != "tvEpisode":
                 continue
-            
+
             primary_title = row["primaryTitle"]
             start_year = row["startYear"]
             end_year = row["endYear"]
@@ -125,7 +123,6 @@ def create_episode_basics_dict() -> Dict[str, EpisodeBasicsDict]:
             start_year = int(start_year) if start_year != "\\N" else None
             end_year = int(end_year) if end_year != "\\N" else None
             primary_title = str(primary_title) if primary_title != "\\N" else None
-
 
             basics_dict[tconst] = EpisodeBasicsDict(
                 {
@@ -170,7 +167,7 @@ def create_complete_list() -> list[CompleteDict]:
     return complete_list
 
 
-def create_table() -> Table:
+def create_table(engine: Engine) -> Table:
     """
     Creates the table in the database if it doesn't exist
     """
@@ -187,21 +184,24 @@ def create_table() -> Table:
         Column("primary_title", String),
         Column("start_year", String),
         Column("end_year", String),
+        extend_existing=True,
     )
     meta.create_all(engine)
     return table
 
 
-def write_to_table(complete_dict: list[CompleteDict], table: Table):
-    # stmt = insert(Table("episodes", MetaData(bind=engine), autoload=True))
-    # with engine.connect() as conn:
-    #     conn.execute(stmt, complete_dict)
-    table.insert().execute(complete_dict)
+def write_to_table(complete_dicts: list[CompleteDict], engine: Engine, table: Table):
+    """
+    Write all the dictionaries to the table `episodes`
+    """
+    with engine.connect() as con:
+        con.execute(table.insert(), complete_dicts)
+        con.commit()
 
 
 if __name__ == "__main__":
     username = getpass.getuser()
     engine = create_engine(f"postgresql+psycopg2://{username}@localhost/imdb")
     complete_list = create_complete_list()
-    # table = create_table(engine)
-    # write_to_table(complete_list, engine)
+    table = create_table(engine)
+    write_to_table(complete_list, engine, table)
