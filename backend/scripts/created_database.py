@@ -62,10 +62,14 @@ def create_ratings_dict() -> Dict[str, RatingsDict]:
         reader = csv.DictReader(f, delimiter="\t")
         ratings_dict = {}
         for row in tqdm(reader, total=RATINGS_EST_SIZE):
-            ratings_dict[row["tconst"]] = RatingsDict(
+            tconst = row["tconst"]
+            average_rating = float(row["averageRating"])
+            num_votes = int(row["numVotes"])
+
+            ratings_dict[tconst] = RatingsDict(
                 {
-                    "average_rating": float(row["averageRating"]),
-                    "num_votes": int(row["numVotes"]),
+                    "average_rating": average_rating,
+                    "num_votes": num_votes,
                 }
             )
     return ratings_dict
