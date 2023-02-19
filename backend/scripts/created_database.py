@@ -1,6 +1,7 @@
 from pathlib import Path
 import gzip
 import csv
+import getpass
 from tqdm import tqdm
 from constants import (
     RATINGS_FILEPATH,
@@ -10,6 +11,7 @@ from constants import (
     EPISODE_EST_SIZE,
     BASICS_FILTERED_EST_SIZE,
 )
+from sqlalchemy import Table, Column, Integer, String, MetaData, Float, Engine, create_engine
 
 
 from typing import Dict, TypedDict
@@ -22,8 +24,8 @@ class EpisodeIndexDict(TypedDict):
 
 
 class RatingsDict(TypedDict):
-    average_rating: str
-    num_votes: str
+    average_rating: float
+    num_votes: int
 
 
 class EpisodeBasicsDict(TypedDict):
@@ -110,7 +112,27 @@ def create_complete_dict() -> Dict[str, CompleteDict]:
     return complete_dict
 
 
+def create_table(engine: Engine) -> None:
+    """
+    Creates the table in the database if it doesn't exist
+    """
+    meta = MetaData()
+    Table(
+        "episodes",
+        meta,
+        Column("parent_tconst", String),
+        Column("season_number", String),
+        Column("episode_number", String),
+        Column("average_rating", Float),
+        Column("num_votes", Integer),
+        Column("primary_title", String),
+        Column("start_year", String),
+        Column("end_year", String),
+    )
+    meta.create_all(engine)
+
 
 if __name__ == "__main__":
-    complete_dict = create_complete_dict()
-    
+    username = getpass.getuser()
+    engine = create_engine(f"postgresql+psycopg2://{username}@localhost/imdb")
+    create_table(engine)
