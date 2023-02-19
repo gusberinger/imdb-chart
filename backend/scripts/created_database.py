@@ -63,7 +63,10 @@ def create_ratings_dict() -> Dict[str, RatingsDict]:
         ratings_dict = {}
         for row in tqdm(reader, total=RATINGS_EST_SIZE):
             ratings_dict[row["tconst"]] = RatingsDict(
-                {"average_rating": float(row["averageRating"]), "num_votes": int(row["numVotes"])}
+                {
+                    "average_rating": float(row["averageRating"]),
+                    "num_votes": int(row["numVotes"]),
+                }
             )
     return ratings_dict
 
@@ -76,13 +79,22 @@ def create_episodes_index_dict() -> Dict[str, EpisodeIndexDict]:
         reader = csv.DictReader(f, delimiter="\t")
         episodes_dict = {}
         for row in tqdm(reader, total=EPISODE_EST_SIZE):
-            episodes_dict[row["tconst"]] = EpisodeIndexDict(
+            tconst = row["tconst"]
+            parent_tconst = row["parentTconst"]
+            season_number = row["seasonNumber"]
+            episode_number = row["episodeNumber"]
+
+            if season_number == "\\N" or episode_number == "\\N":
+                continue
+
+            episodes_dict[tconst] = EpisodeIndexDict(
                 {
-                    "parent_tconst": row["parentTconst"],
-                    "season_number": row["seasonNumber"],
-                    "episode_number": row["episodeNumber"],
+                    "parent_tconst": parent_tconst,
+                    "season_number": season_number,
+                    "episode_number": episode_number,
                 }
             )
+            
     return episodes_dict
 
 
