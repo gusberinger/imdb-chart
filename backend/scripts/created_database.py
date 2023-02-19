@@ -37,9 +37,9 @@ class RatingsDict(TypedDict):
 
 
 class EpisodeBasicsDict(TypedDict):
-    primary_title: str
-    start_year: str
-    end_year: str
+    primary_title: str | None
+    start_year: int | None
+    end_year: int | None
 
 
 class CompleteDict(TypedDict):
@@ -50,8 +50,8 @@ class CompleteDict(TypedDict):
     average_rating: float | None
     num_votes: int | None
     primary_title: str | None
-    start_year: str | None
-    end_year: str | None
+    start_year: int | None
+    end_year: int | None
 
 
 def create_ratings_dict() -> Dict[str, RatingsDict]:
@@ -113,13 +113,25 @@ def create_episode_basics_dict() -> Dict[str, EpisodeBasicsDict]:
             reader,
             total=BASICS_FILTERED_EST_SIZE,
         ):
+            tconst = row["tconst"]
+
             if row["titleType"] != "tvEpisode":
                 continue
-            basics_dict[row["tconst"]] = EpisodeBasicsDict(
+            
+            primary_title = row["primaryTitle"]
+            start_year = row["startYear"]
+            end_year = row["endYear"]
+
+            start_year = int(start_year) if start_year != "\\N" else None
+            end_year = int(end_year) if end_year != "\\N" else None
+            primary_title = str(primary_title) if primary_title != "\\N" else None
+
+
+            basics_dict[tconst] = EpisodeBasicsDict(
                 {
-                    "primary_title": row["primaryTitle"],
-                    "start_year": row["startYear"],
-                    "end_year": row["endYear"],
+                    "primary_title": primary_title,
+                    "start_year": start_year,
+                    "end_year": end_year,
                 }
             )
     return basics_dict
