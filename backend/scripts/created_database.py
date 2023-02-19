@@ -1,8 +1,8 @@
-from pathlib import Path
 import gzip
 import csv
 import getpass
 from tqdm import tqdm
+from dataclasses import dataclass
 from constants import (
     RATINGS_FILEPATH,
     EPISODE_FILEPATH,
@@ -11,7 +11,15 @@ from constants import (
     EPISODE_EST_SIZE,
     BASICS_FILTERED_EST_SIZE,
 )
-from sqlalchemy import Table, Column, Integer, String, MetaData, Float, Engine, create_engine
+from sqlalchemy import (
+    Table,
+    Column,
+    Integer,
+    String,
+    MetaData,
+    Float,
+    create_engine,
+)
 
 
 from typing import Dict, TypedDict
@@ -35,14 +43,15 @@ class EpisodeBasicsDict(TypedDict):
 
 
 class CompleteDict(TypedDict):
-    parent_tconst: str
-    season_number: str
-    episode_number: str
-    average_rating: str
-    num_votes: str
-    primary_title: str
-    start_year: str
-    end_year: str
+    tconst: str
+    parent_tconst: str | None
+    season_number: str | None
+    episode_number: str | None
+    average_rating: float | None
+    num_votes: int | None
+    primary_title: str | None
+    start_year: str | None
+    end_year: str | None
 
 
 def create_ratings_dict() -> Dict[str, RatingsDict]:
@@ -54,7 +63,7 @@ def create_ratings_dict() -> Dict[str, RatingsDict]:
         ratings_dict = {}
         for row in tqdm(reader, total=RATINGS_EST_SIZE):
             ratings_dict[row["tconst"]] = RatingsDict(
-                {"average_rating": row["averageRating"], "num_votes": row["numVotes"]}
+                {"average_rating": float(row["averageRating"]), "num_votes": int(row["numVotes"])}
             )
     return ratings_dict
 
@@ -100,7 +109,7 @@ def create_episode_basics_dict() -> Dict[str, EpisodeBasicsDict]:
     return basics_dict
 
 
-def create_complete_dict() -> Dict[str, CompleteDict]:
+def create_complete_list() -> list[CompleteDict]:
     """
     Reads the ratings, episodes and basics files and creates a dictionary of tconst to all the information
     """
@@ -108,18 +117,43 @@ def create_complete_dict() -> Dict[str, CompleteDict]:
     basics = create_episode_basics_dict()
     index = create_episodes_index_dict()
 
-    complete_dict = CompleteDict(ratings | basics | index)
-    return complete_dict
+    episode_tconsts = set(basics.keys())
+    ratings = {k: v for k, v in ratings.items() if k in episode_tconsts}
+    index = {k: v for k, v in index.items() if k in episode_tconsts}
+
+    # complete_dict = ratings | basics | index
+    complete_list: list[CompleteDict] = []
+
+    for tconst, basics_data in tqdm(list(basics.items())[:10000]):
+        ratings_data = ratings[tconst]
+        index_data = index[tconst]
+
+        complete_list.append(
+            {
+                "tconst": tconst,
+                "parent_tconst": index_data["parent_tconst"],
+                "season_number": index_data["season_number"],
+                "episode_number": index_data["episode_number"],
+                "average_rating": ratings_data["average_rating"],
+                "num_votes": ratings_data["num_votes"],
+                "primary_title": basics_data["primary_title"],
+                "start_year": basics_data["start_year"],
+                "end_year": basics_data["end_year"],
+            }
+        )
+
+    return complete_list
 
 
-def create_table(engine: Engine) -> None:
+def create_table() -> Table:
     """
     Creates the table in the database if it doesn't exist
     """
     meta = MetaData()
-    Table(
+    table = Table(
         "episodes",
         meta,
+        Column("tconst", String, primary_key=True),
         Column("parent_tconst", String),
         Column("season_number", String),
         Column("episode_number", String),
@@ -130,9 +164,19 @@ def create_table(engine: Engine) -> None:
         Column("end_year", String),
     )
     meta.create_all(engine)
+    return table
+
+
+def write_to_table(complete_dict: list[CompleteDict], table: Table):
+    # stmt = insert(Table("episodes", MetaData(bind=engine), autoload=True))
+    # with engine.connect() as conn:
+    #     conn.execute(stmt, complete_dict)
+    table.insert().execute(complete_dict)
 
 
 if __name__ == "__main__":
     username = getpass.getuser()
     engine = create_engine(f"postgresql+psycopg2://{username}@localhost/imdb")
-    create_table(engine)
+    # complete_list = create_complete_list()
+    # table = create_table(engine)
+    # write_to_table(complete_list, engine)
