@@ -117,14 +117,11 @@ def create_complete_list() -> list[CompleteDict]:
     basics = create_episode_basics_dict()
     index = create_episodes_index_dict()
 
-    episode_tconsts = set(basics.keys())
-    ratings = {k: v for k, v in ratings.items() if k in episode_tconsts}
-    index = {k: v for k, v in index.items() if k in episode_tconsts}
-
-    # complete_dict = ratings | basics | index
     complete_list: list[CompleteDict] = []
 
-    for tconst, basics_data in tqdm(list(basics.items())[:10000]):
+    for tconst, basics_data in tqdm(basics.items()):
+        if tconst not in ratings or tconst not in index:
+            continue
         ratings_data = ratings[tconst]
         index_data = index[tconst]
 
@@ -177,6 +174,6 @@ def write_to_table(complete_dict: list[CompleteDict], table: Table):
 if __name__ == "__main__":
     username = getpass.getuser()
     engine = create_engine(f"postgresql+psycopg2://{username}@localhost/imdb")
-    # complete_list = create_complete_list()
+    complete_list = create_complete_list()
     # table = create_table(engine)
     # write_to_table(complete_list, engine)
