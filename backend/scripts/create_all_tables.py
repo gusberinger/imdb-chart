@@ -23,7 +23,7 @@ from constants import (
     BASICS_FILTERED_EST_SIZE,
 )
 import typer
-
+import time
 
 class RatingsDict(TypedDict):
     tconst: str
@@ -177,6 +177,33 @@ def read_basics_file() -> list[BasicsDict]:
     return basics_list
 
 
+def insert_ratings(engine: Engine, ratings_table: Table, ratings_list: list[RatingsDict], batch_size: int = 100000):
+    with engine.connect() as conn:
+        with conn.begin():
+            for i in range(0, len(ratings_list), batch_size):
+                conn.execute(
+                    ratings_table.insert(),
+                    ratings_list[i:i+batch_size]
+                )
+
+def insert_episode_index(engine: Engine, episode_index_table: Table, episode_list: list[EpisodeIndexDict], batch_size: int = 100000):
+    with engine.connect() as conn:
+        with conn.begin():
+            for i in range(0, len(episode_list), batch_size):
+                conn.execute(
+                    episode_index_table.insert(),
+                    episode_list[i:i+batch_size]
+                )
+
+def insert_basics(engine: Engine, basics_table: Table, basics_list: list[BasicsDict], batch_size: int = 100000):
+    with engine.connect() as conn:
+        with conn.begin():
+            for i in range(0, len(basics_list), batch_size):
+                conn.execute(
+                    basics_table.insert(),
+                    basics_list[i:i+batch_size]
+                )
+
 
 def main():
     username = getpass.getuser()
@@ -190,11 +217,18 @@ def main():
     episode_index_table = create_episode_index_table(engine)
     basics_table = create_basics_table(engine)
 
-    with engine.connect() as conn:
-        conn.execute(ratings_table.insert(), ratings_list)
-        conn.execute(episode_index_table.insert(), episode_list)
-        conn.execute(basics_table.insert(), basics_list)
-        conn.commit()
+
+    t0 = time.time()
+    insert_ratings(engine, ratings_table, ratings_list)
+    t1 = time.time()
+    print("Time to insert ratings: ", t1 - t0)
+    insert_episode_index(engine, episode_index_table, episode_list)
+    t2 = time.time()
+    print("Time to insert episode index: ", t2 - t1)
+    insert_basics(engine, basics_table, basics_list)
+    t3 = time.time()
+    print("Time to insert basics: ", t3 - t2)
+    
 
 
 if __name__ == "__main__":
