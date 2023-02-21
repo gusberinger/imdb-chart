@@ -40,7 +40,7 @@ class EpisodeIndexDict(TypedDict):
 
 class BasicsDict(TypedDict):
     tconst: str
-    titleType: str
+    title_type: str
     primary_title: str
     start_year: int | None
     end_year: int | None
@@ -90,7 +90,7 @@ def create_basics_table(engine: Engine) -> Table:
         "basics",
         metadata,
         Column("tconst", String, primary_key=True),
-        Column("titleType", String, nullable=False),
+        Column("title_type", String, nullable=False),
         Column("primary_title", String),
         Column("start_year", Integer),
         Column("end_year", Integer),
@@ -168,7 +168,7 @@ def read_basics_file() -> list[BasicsDict]:
             basics_list.append(
                 {
                     "tconst": tconst,
-                    "titleType": title_type,
+                    "title_type": title_type,
                     "primary_title": primary_title,
                     "start_year": start_year,
                     "end_year": end_year,
