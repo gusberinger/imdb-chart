@@ -25,7 +25,8 @@ def get_episodes(parent_tconst: str, db: Session = Depends(get_db)):
     return db_episodes
 
 
-@app.get("/search/{query}")
+# @app.get("/search/{query}")
+@app.get("/search/{query}", response_model=list[schemas.Search])
 def search(query: str, db: Session = Depends(get_db)):
     return crud.search(db, query=query)
 

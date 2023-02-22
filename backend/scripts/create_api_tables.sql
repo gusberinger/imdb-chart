@@ -1,6 +1,20 @@
 DROP TABLE episodes;
 DROP TABLE search;
 
+CREATE OR REPLACE FUNCTION replace_chars(input_text text)
+RETURNS text
+AS $$
+BEGIN
+    input_text := replace(input_text, '.', '');
+    input_text := replace(input_text, ':', '');
+    input_text := replace(input_text, '-', '');
+    input_text := replace(input_text, '.', '');
+    input_text := replace(input_text, '', '');
+    input_text := replace(input_text, '&', 'and');
+    RETURN input_text;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE TABLE episodes AS
     SELECT b.*, r.num_votes, r.average_rating, e.episode_number, e.season_number, e.parent_tconst
     FROM basics b
