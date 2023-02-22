@@ -2,7 +2,7 @@ DROP TABLE episodes;
 DROP TABLE search;
 
 CREATE TABLE episodes AS
-    SELECT b.*, r.num_votes, r.average_rating, e.episode_number, e.season_number
+    SELECT b.*, r.num_votes, r.average_rating, e.episode_number, e.season_number, e.parent_tconst
     FROM basics b
     INNER JOIN ratings r ON r.tconst=b.tconst
     INNER JOIN episode_index e ON e.tconst=b.tconst
@@ -17,3 +17,4 @@ CREATE TABLE search AS
     AND r.num_votes > 100;
 
 CREATE INDEX search_primary_title_vector_idx ON search USING GIN(primary_title_vector);
+CREATE INDEX parent_tconst_index ON episodes (parent_tconst);
