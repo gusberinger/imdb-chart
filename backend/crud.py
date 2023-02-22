@@ -16,7 +16,7 @@ def search(db: Session, query: str):
     sql_query = """
     SELECT tconst, primary_title, start_year, end_year, ts_rank(primary_title_vector, plainto_tsquery(:query)) as rank
     FROM search
-    WHERE primary_title_vector @@ to_tsquery(:query)
+    WHERE primary_title_vector @@ plainto_tsquery(:query)
     ORDER BY rank, num_votes DESC
     LIMIT 10;
     """
