@@ -13,7 +13,7 @@ CREATE TABLE search AS
     SELECT b.*, r.num_votes, to_tsvector(b.primary_title) AS primary_title_vector
     FROM basics b
     INNER JOIN ratings r ON r.tconst=b.tconst
-    WHERE title_type='tvSeries'
+    WHERE title_type='tvSeries' OR title_type='tvMiniSeries'
     AND r.num_votes > 100;
 
 CREATE INDEX search_primary_title_vector_idx ON search USING GIN(primary_title_vector);
