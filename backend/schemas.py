@@ -14,3 +14,14 @@ class Episode(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class Search(BaseModel):
+    tconst: str
+    primary_title: str
+    start_year: int | None
+    end_year: int | None
+    num_votes: int
+    
+    class Config:
+        orm_mode = True
