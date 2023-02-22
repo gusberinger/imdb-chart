@@ -3,10 +3,32 @@ from sqlalchemy.orm import Session
 
 import crud, models, schemas
 from database import sessionLocal, engine
+from fastapi.middleware.cors import CORSMiddleware
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+origins = [
+    "http://127.0.0.1:5173",
+    "https://127.0.0.1:5173/"
+    "http://localhost:5173",
+    "https://localhost:5173",
+    "localhost:5173",
+    "127.0.0.1:5173",
+    "http://localhost",
+    
+
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 
 # Dependency
@@ -17,7 +39,7 @@ def get_db():
     finally:
         db.close()
 
-@app.get("/tv_show/{parent_tconst}", response_model=list[schemas.Episode])
+@app.get("/episodes/{parent_tconst}", response_model=list[schemas.Episode])
 def get_episodes(parent_tconst: str, db: Session = Depends(get_db)):
     db_episodes = crud.get_episode(db, parent_tconst=parent_tconst)
     if db_episodes is None:
