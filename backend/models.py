@@ -1,7 +1,7 @@
 from database import Base
 from sqlalchemy import Column, Integer, String, Float
 
-class Episode(Base):
+class EpisodeTable(Base):
     __tablename__ = "episodes"
     tconst = Column(String, primary_key=True)
     parent_tconst = Column(String)
@@ -12,5 +12,3 @@ class Episode(Base):
     primary_title = Column(String)
     start_year = Column(Integer)
     end_year = Column(Integer)
-
-
