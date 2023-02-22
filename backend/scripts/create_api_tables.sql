@@ -10,13 +10,12 @@ CREATE TABLE episodes AS
     ORDER BY b.tconst, e.season_number, e.episode_number;
 
 CREATE TABLE search AS
-    SELECT b.*, r.num_votes, to_tsvector(b.primary_title) AS primary_title_vector
+    SELECT b.*, r.num_votes, r.average_rating, LOWER(unaccent(primary_title)) AS searchable_title
     FROM basics b
     INNER JOIN ratings r ON r.tconst=b.tconst
     WHERE (title_type='tvSeries' OR title_type='tvMiniSeries')
         AND r.num_votes > 100;
 
-CREATE INDEX search_primary_title_vector_idx ON search USING GIN(primary_title_vector);
 CREATE INDEX parent_tconst_index ON episodes (parent_tconst);
 ALTER TABLE episodes ADD PRIMARY KEY (tconst);
 ALTER TABLE search ADD PRIMARY KEY (tconst);
