@@ -18,3 +18,5 @@ CREATE TABLE search AS
 
 CREATE INDEX search_primary_title_vector_idx ON search USING GIN(primary_title_vector);
 CREATE INDEX parent_tconst_index ON episodes (parent_tconst);
+ALTER TABLE episodes ADD PRIMARY KEY (tconst);
+ALTER TABLE search ADD PRIMARY KEY (tconst);
