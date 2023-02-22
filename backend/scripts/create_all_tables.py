@@ -17,7 +17,7 @@ from tqdm import tqdm
 from constants import (
     RATINGS_FILEPATH,
     EPISODE_FILEPATH,
-    BASICS_FILTERED_FILEPATH,
+    BASICS_FILEPATH,
     RATINGS_EST_SIZE,
     EPISODE_EST_SIZE,
     BASICS_FILTERED_EST_SIZE,
@@ -153,7 +153,7 @@ def read_episode_file() -> list[EpisodeIndexDict]:
 
 def read_basics_file() -> list[BasicsDict]:
     basics_list: list[BasicsDict] = []
-    with gzip.open(BASICS_FILTERED_FILEPATH, "rt") as f:
+    with gzip.open(BASICS_FILEPATH, "rt") as f:
         reader = csv.DictReader(f, delimiter="\t")
         for row in tqdm(reader, total=BASICS_FILTERED_EST_SIZE):
             tconst = row["tconst"]
