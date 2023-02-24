@@ -41,7 +41,7 @@ def get_db():
 
 @app.get("/episodes/{parent_tconst}", response_model=list[schemas.Episode])
 def get_episodes(parent_tconst: str, db: Session = Depends(get_db)):
-    db_episodes = crud.get_episode(db, parent_tconst=parent_tconst)
+    db_episodes = crud.get_episodes(db, parent_tconst=parent_tconst)
     if db_episodes is None:
         raise HTTPException(status_code=404, detail="Episode not found")
     return db_episodes
