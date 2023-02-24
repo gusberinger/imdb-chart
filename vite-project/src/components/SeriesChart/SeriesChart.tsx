@@ -15,13 +15,11 @@ interface ChartOptions {
 	mode: "rating" | "votes"
 	lineEnabled: boolean
 	colorEnabled: boolean
+	pointsEnabled: boolean
 }
 
 interface SeriesChartProps {
 	parent_tconst: string
-	title: string
-	start_year: number
-	end_year: number
 	options: ChartOptions
 }
 
@@ -67,7 +65,8 @@ const SeriesChart = ({ parent_tconst, options }: SeriesChartProps) => {
 							borderWidth: options.lineEnabled ? 3 : 0,
 							pointBorderWidth: 0,
 							pointHitRadius: 20,
-							pointRadius: 4,
+							pointHoverRadius: options.pointsEnabled ? 6 : 1,
+							pointRadius: options.pointsEnabled ? 4 : 0,
 							borderCapStyle: "square",
 							tension: 0.1,
 						},
