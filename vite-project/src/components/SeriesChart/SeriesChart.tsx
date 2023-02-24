@@ -5,7 +5,7 @@ import Chart from "chart.js/auto"
 import { CategoryScale, LinearScale, ScriptableContext } from "chart.js"
 import zoomPlugin from "chartjs-plugin-zoom"
 import { ZoomPluginOptions } from "chartjs-plugin-zoom/types/options"
-import { COLOR_PALLETE, DEFAULT_COLOR } from "../../constants/lightTheme"
+import { COLOR_PALLETE, DEFAULT_COLOR } from "../../constants/theme"
 
 Chart.register(CategoryScale)
 Chart.register(LinearScale)
@@ -51,7 +51,7 @@ const SeriesChart = ({ parent_tconst, options, showTitle }: SeriesChartProps) =>
 	}
 
 	return (
-		<div className="chartContainer">
+		<div className="chart-container">
 			<Line
 				data={{
 					labels: labels,
@@ -72,6 +72,7 @@ const SeriesChart = ({ parent_tconst, options, showTitle }: SeriesChartProps) =>
 				}}
 				options={{
 					responsive: true,
+					animation: { duration: 5 },
 					maintainAspectRatio: true,
 					scales: {
 						y: {
