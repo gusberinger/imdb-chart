@@ -6,10 +6,12 @@ const Controller = () => {
 		<div>
 			<SeriesChart
 				parent_tconst="tt0903747"
+				showTitle="Breaking Bad"
 				options={{
 					mode: "rating",
 					lineEnabled: true,
 					colorEnabled: false,
+					pointsEnabled: false,
 				}}
 			/>
 		</div>
