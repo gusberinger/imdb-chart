@@ -54,7 +54,10 @@ CREATE_EPISODES_TABLE = """
         FROM basics b
         INNER JOIN ratings r ON r.tconst=b.tconst
         INNER JOIN episode_index e ON e.tconst=b.tconst
-        WHERE (b.title_type='tvEpisode' OR b.title_type='tvMiniSeries');
+        WHERE
+            (b.title_type='tvEpisode' OR b.title_type='tvMiniSeries')
+            AND e.episode_number IS NOT NULL
+            AND e.season_number IS NOT NULL;
 """
 
 CREATE_SEARCH_TABLE = """
@@ -72,7 +75,7 @@ CREATE_SEARCH_TABLE = """
         INNER JOIN ratings r ON r.tconst=b.tconst
         WHERE (title_type='tvSeries' OR title_type='tvMiniSeries')
             AND r.num_votes > 100
-            AND b.tconst IN (SELECT DISTINCT parent_tconst FROM episode_index);
+            AND b.tconst IN (SELECT DISTINCT parent_tconst FROM episodes);
 """
 
 DROP_INTERFACE_TABLES = """
