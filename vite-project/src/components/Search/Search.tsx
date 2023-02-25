@@ -14,10 +14,16 @@ const Search = () => {
 
 	const setShow = useStore((state) => state.setShow)
 
+	const getLabel = (option: SeriesInfo) => {
+		if (option.start_year === null) return option.primary_title
+		else if (option.end_year === null) return `${option.primary_title} (${option.start_year}–)`
+		else return `${option.primary_title} (${option.start_year} - ${option.end_year})`
+	}
+
 	return (
 		<Autocomplete
 			options={searchResults}
-			getOptionLabel={(option) => option.primary_title}
+			getOptionLabel={(option) => getLabel(option)}
 			inputValue={userInput}
 			onInputChange={(event, value) => {
 				setUserInput(value)
