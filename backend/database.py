@@ -5,7 +5,7 @@ import getpass
 
 # SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
 username = getpass.getuser()
-SQLALCHEMY_DATABASE_URL = f"postgresql://{username}@localhost:5432/imdb"
+SQLALCHEMY_DATABASE_URL = f"postgresql://postgres:postgres@localhost:5432/imdb"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 sessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
