@@ -24,3 +24,5 @@ interface SeriesInfo {
 	end_year: number | null
 	num_votes: number
 }
+
+type mode = "line" | "point" | "both"

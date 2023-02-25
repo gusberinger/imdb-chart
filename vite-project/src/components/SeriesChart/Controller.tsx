@@ -5,13 +5,20 @@ import Search from "../Search/Search"
 import SeriesChart from "./SeriesChart"
 
 const Controller = () => {
-	const [mode, setMode] = useState<"rating" | "votes">("rating")
-	const [lineEnabled, setLineEnabled] = useState(true)
-	const [colorEnabled, setColorEnabled] = useState(false)
-	const [pointsEnabled, setPointsEnabled] = useState(false)
+	const [y_axis, setYAxis] = useState<"rating" | "votes">("rating")
+	// const [lineEnabled, setLineEnabled] = useState(true)
+	const [mode, setMode] = useState<mode>("both")
+	const [colorEnabled, setColorEnabled] = useState(true)
+	// const [pointsEnabled, setPointsEnabled] = useState(false)
 
 	const handleModeButton = () => {
-		setMode(() => (mode === "rating" ? "votes" : "rating"))
+		setYAxis(() => (y_axis === "rating" ? "votes" : "rating"))
+	}
+
+	const modeText = () => {
+		if (mode === "point") return "Point"
+		else if (mode === "line") return "Line"
+		else return "Both"
 	}
 
 	const showInfo = useStore((state) => state.showInfo)
@@ -20,15 +27,19 @@ const Controller = () => {
 		<div>
 			<Search />
 
-			<Button variant="outlined" color={mode === "rating" ? "secondary" : "success"} onClick={handleModeButton}>
-				{mode === "rating" ? "Rating" : "Votes"}
+			<Button variant="outlined" color={y_axis === "rating" ? "secondary" : "success"} onClick={handleModeButton}>
+				{y_axis === "rating" ? "Rating" : "Votes"}
 			</Button>
 			<Button
 				variant="outlined"
-				color={lineEnabled ? "secondary" : "success"}
-				onClick={() => setLineEnabled(!lineEnabled)}
+				color={mode === "point" ? "secondary" : "success"}
+				onClick={() => {
+					if (mode == "point") setMode("line")
+					else if (mode == "line") setMode("both")
+					else setMode("point")
+				}}
 			>
-				{lineEnabled ? "Line" : "No Line"}
+				{modeText()}
 			</Button>
 			<Button
 				variant="outlined"
@@ -38,22 +49,13 @@ const Controller = () => {
 				{colorEnabled ? "Color" : "No Color"}
 			</Button>
 
-			<Button
-				variant="outlined"
-				color={pointsEnabled ? "secondary" : "success"}
-				onClick={() => setPointsEnabled(!pointsEnabled)}
-			>
-				{pointsEnabled ? "Points" : "No Points"}
-			</Button>
-
 			<SeriesChart
 				parent_tconst={showInfo.tconst}
 				showTitle={showInfo.primary_title}
 				options={{
+					y_axis: y_axis,
 					mode: mode,
-					lineEnabled: lineEnabled,
 					colorEnabled: colorEnabled,
-					pointsEnabled: pointsEnabled,
 				}}
 			/>
 		</div>

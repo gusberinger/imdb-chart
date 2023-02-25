@@ -12,10 +12,9 @@ Chart.register(LinearScale)
 Chart.register(zoomPlugin)
 
 interface ChartOptions {
-	mode: "rating" | "votes"
-	lineEnabled: boolean
+	y_axis: "rating" | "votes"
+	mode: mode
 	colorEnabled: boolean
-	pointsEnabled: boolean
 }
 
 interface SeriesChartProps {
@@ -50,6 +49,9 @@ const SeriesChart = ({ parent_tconst, options, showTitle }: SeriesChartProps) =>
 		return options.colorEnabled ? color : DEFAULT_COLOR
 	}
 
+	const lineEnabled = options.mode === "line" || options.mode === "both"
+	const pointsEnabled = options.mode === "point" || options.mode === "both"
+
 	return (
 		<div className="chart-container">
 			<Line
@@ -58,13 +60,13 @@ const SeriesChart = ({ parent_tconst, options, showTitle }: SeriesChartProps) =>
 					datasets: [
 						{
 							label: "Episode Rating",
-							data: options.mode === "rating" ? ratings : votes,
+							data: options.y_axis === "rating" ? ratings : votes,
 							pointBackgroundColor: (ctx) => getColorFromCtx(ctx),
-							borderWidth: options.lineEnabled ? 3 : 0,
+							borderWidth: lineEnabled ? 3 : 0,
 							pointBorderWidth: 0,
 							pointHitRadius: 20,
-							pointHoverRadius: options.pointsEnabled ? 6 : 1,
-							pointRadius: options.pointsEnabled ? 4 : 0,
+							pointHoverRadius: pointsEnabled ? 6 : 1,
+							pointRadius: pointsEnabled ? 4 : 0,
 							borderCapStyle: "square",
 							tension: 0.1,
 						},
@@ -86,7 +88,7 @@ const SeriesChart = ({ parent_tconst, options, showTitle }: SeriesChartProps) =>
 						title: {
 							display: true,
 							text:
-								options.mode === "rating"
+								options.y_axis === "rating"
 									? `${showTitle} - Episode Ratings`
 									: `${showTitle} - Episode Votes`,
 						},
