@@ -1,21 +1,16 @@
-version: '3'
+version: "3"
 services:
   db:
-    image: postgres:11-alpine
-    environment:
-      POSTGRES_DB: imdb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
-  app:
     build:
       context: .
-    depends_on:
-      - db
+      dockerfile: Dockerfile
     environment:
-      PGHOST: db
-      PGDATABASE: imdb
-      PGUSER: postgres
-      PGPASSWORD: postgres
-
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: imdb
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d/
+    ports:
+      - "5432:5432"
+    command: postgres -c max_connections=300
