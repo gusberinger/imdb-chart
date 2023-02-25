@@ -19,14 +19,20 @@ const initialState = {
 	episodes: breakingBad as EpisodeInfo[],
 }
 
+const local = localStorage.getItem("showInfo")
+if (local) {
+	initialState.showInfo = JSON.parse(local) as SeriesInfo
+}
+
 export const useStore = create<SeriesStore>((set, get) => ({
 	...initialState,
 	setShow: (show: SeriesInfo) => {
 		set({ showInfo: show })
+		localStorage.setItem("showInfo", JSON.stringify(show))
 	},
-	getShow: get().showInfo,
+	// getShow: get().showInfo,
 	setEpisodes: (episodes: EpisodeInfo[]) => {
 		set({ episodes: episodes })
 	},
-	getEpisodes: get().episodes,
+	// getEpisodes: get().episodes,
 }))

@@ -1,5 +1,7 @@
 import { Button } from "@mui/material"
 import React, { useState } from "react"
+import { useStore } from "../../hooks/store"
+import Search from "../Search/Search"
 import SeriesChart from "./SeriesChart"
 
 const Controller = () => {
@@ -12,8 +14,12 @@ const Controller = () => {
 		setMode(() => (mode === "rating" ? "votes" : "rating"))
 	}
 
+	const showInfo = useStore((state) => state.showInfo)
+
 	return (
 		<div>
+			<Search />
+
 			<Button variant="outlined" color={mode === "rating" ? "secondary" : "success"} onClick={handleModeButton}>
 				{mode === "rating" ? "Rating" : "Votes"}
 			</Button>
@@ -41,8 +47,8 @@ const Controller = () => {
 			</Button>
 
 			<SeriesChart
-				parent_tconst="tt0903747"
-				showTitle="Breaking Bad"
+				parent_tconst={showInfo.tconst}
+				showTitle={showInfo.primary_title}
 				options={{
 					mode: mode,
 					lineEnabled: lineEnabled,
