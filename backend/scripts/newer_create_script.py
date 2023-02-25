@@ -71,7 +71,8 @@ CREATE_SEARCH_TABLE = """
         FROM basics b
         INNER JOIN ratings r ON r.tconst=b.tconst
         WHERE (title_type='tvSeries' OR title_type='tvMiniSeries')
-            AND r.num_votes > 100;
+            AND r.num_votes > 100
+            AND b.tconst IN (SELECT DISTINCT parent_tconst FROM episode_index);
 """
 
 DROP_INTERFACE_TABLES = """
