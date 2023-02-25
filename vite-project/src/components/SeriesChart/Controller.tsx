@@ -44,7 +44,7 @@ const Controller = () => {
 				parent_tconst="tt0903747"
 				showTitle="Breaking Bad"
 				options={{
-					mode: "rating",
+					mode: mode,
 					lineEnabled: lineEnabled,
 					colorEnabled: colorEnabled,
 					pointsEnabled: pointsEnabled,
