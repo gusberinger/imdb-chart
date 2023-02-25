@@ -42,9 +42,8 @@ def search(db: Session, query: str):
     sql = """
     SELECT tconst, primary_title, start_year, end_year, num_votes
     FROM search
-    WHERE LEVENSHTEIN(:query, searchable_title) < 3
     ORDER BY
-    SIMILARITY(:query, searchable_title) DESC
+    jarowinkler(:query, searchable_title) DESC
     LIMIT 10
     """
     return db.execute(text(sql), {"query": query}).fetchall()
