@@ -5,7 +5,7 @@ export const api = axios.create({
 })
 
 export const search_title = async (title: string) => {
-	const { data } = await api.get<SearchTitleInfo[]>(`/search/${title}`)
+	const { data } = await api.get<SeriesInfo[]>(`/search/${title}`)
 	// console.log(data)
 	return data
 }
