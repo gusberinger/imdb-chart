@@ -106,8 +106,7 @@ const SeriesChart = ({ parent_tconst, options, showTitle }: SeriesChartProps) =>
 								afterBody: (tooltipInfo) => {
 									const index = tooltipInfo[0].dataIndex
 									const episode = episodes[index]
-									const imdbURL = `https://www.imdb.com/title/${episode.tconst}`
-									const message = `Season ${episode.season_number} Episode ${episode.episode_number}\n<a href="${imdbURL}" target="_blank">IMDB</a>`
+									const message = `Season ${episode.season_number} Episode ${episode.episode_number}`
 									return message
 								},
 							},
