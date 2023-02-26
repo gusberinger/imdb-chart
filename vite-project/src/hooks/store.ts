@@ -6,6 +6,8 @@ interface SeriesStore {
 	episodes: EpisodeInfo[]
 	setEpisodes: (episodes: EpisodeInfo[]) => void
 	setShow: (show: SeriesInfo) => void
+	isLoadingDetails: boolean
+	setIsLoadingDetails: (isLoadingDetails: boolean) => void
 	// detailedInfo: { description: string } | null
 	// setDetailedInfo: (detailedInfo: string) => void
 }
@@ -19,6 +21,7 @@ const initialState = {
 		num_votes: 1900000,
 	} as SeriesInfo,
 	episodes: breakingBad as EpisodeInfo[],
+	isLoadingDetails: false,
 	// detailedInfo: null as DetailedSeriesInfo | null,
 }
 
@@ -35,6 +38,9 @@ export const useStore = create<SeriesStore>((set, get) => ({
 	},
 	setEpisodes: (episodes: EpisodeInfo[]) => {
 		set({ episodes: episodes })
+	},
+	setIsLoadingDetails: (isLoadingDetails: boolean) => {
+		set({ isLoadingDetails: isLoadingDetails })
 	},
 	// setDetailedInfo: () => {
 	// 	set({ detailedInfo: detailedInfo })

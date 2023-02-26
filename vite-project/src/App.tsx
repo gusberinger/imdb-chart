@@ -12,6 +12,7 @@ function App() {
 	const { tconst } = showInfo
 	const [currentAbortController, setCurrentAbortController] = useState<AbortController>(new AbortController())
 	const setEpisodes = useStore((state) => state.setEpisodes)
+	const setIsLoadingDetails = useStore((state) => state.setIsLoadingDetails)
 
 	useEffect(() => {
 		const fetchAllEpisodeInfo = async () => {
@@ -25,10 +26,10 @@ function App() {
 			try {
 				const episodes = await get_episodes(tconst)
 				setEpisodes(episodes)
+				setIsLoadingDetails(true)
 				const detailedInfo = await get_more_info(tconst, newAbortController)
 				const episodeInfo = detailedInfo.episodes
 				const mapping = new Map(episodeInfo.map((episode) => [episode.tconst, episode.description]))
-
 				episodes.forEach((episode) => {
 					const tconst = episode.tconst
 					const description = mapping.get(tconst)
@@ -36,6 +37,7 @@ function App() {
 					episode.description = description
 				})
 				setEpisodes(episodes)
+				setIsLoadingDetails(false)
 
 				console.log(episodes)
 			} catch (error) {
