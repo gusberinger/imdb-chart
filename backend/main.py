@@ -11,8 +11,7 @@ app = FastAPI()
 
 origins = [
     "http://127.0.0.1:5173",
-    "https://127.0.0.1:5173/"
-    "http://localhost:5173",
+    "https://127.0.0.1:5173/" "http://localhost:5173",
     "https://localhost:5173",
     "localhost:5173",
     "127.0.0.1:5173",
@@ -28,7 +27,6 @@ app.add_middleware(
 )
 
 
-
 # Dependency
 def get_db():
     db = sessionLocal()
@@ -36,6 +34,7 @@ def get_db():
         yield db
     finally:
         db.close()
+
 
 @app.get("/episodes/{parent_tconst}", response_model=list[schemas.Episode])
 def get_episodes(parent_tconst: str, db: Session = Depends(get_db)):
@@ -50,3 +49,8 @@ def get_episodes(parent_tconst: str, db: Session = Depends(get_db)):
 def search(query: str, db: Session = Depends(get_db)):
     return crud.search(db, query=query)
 
+
+@app.get("/detailed_info/{parent_tconst}")
+def get_detailed_info(parent_tconst: str, db: Session = Depends(get_db)):
+    # remove tt from parent_tconst
+    return crud.get_detailed_info(db, parent_tconst=parent_tconst)
