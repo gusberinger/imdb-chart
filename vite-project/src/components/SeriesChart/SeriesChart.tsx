@@ -15,6 +15,7 @@ interface ChartOptions {
 	y_axis: "rating" | "votes"
 	mode: mode
 	colorEnabled: boolean
+	beginAtZero: boolean
 }
 
 interface SeriesChartProps {
@@ -94,7 +95,7 @@ const SeriesChart = ({ options }: SeriesChartProps) => {
 					// maintainAspectRatio: true,
 					scales: {
 						y: {
-							beginAtZero: true,
+							beginAtZero: options.beginAtZero,
 						},
 					},
 					plugins: {

@@ -29,12 +29,22 @@ function App() {
 				setIsLoadingDetails(true)
 				const detailedInfo = await get_more_info(tconst, newAbortController)
 				const episodeInfo = detailedInfo.episodes
-				const mapping = new Map(episodeInfo.map((episode) => [episode.tconst, episode.description]))
+				const mapping = new Map(episodeInfo.map((episode) => [episode.tconst, episode]))
 				episodes.forEach((episode) => {
 					const tconst = episode.tconst
-					const description = mapping.get(tconst)
-					if (description == null) return
-					episode.description = description
+					const info = mapping.get(tconst)
+					const description = info?.description
+					const airdateString = info?.air_date
+					if (description) episode.description = description
+					// console.log(airdate)
+
+					if (airdateString) {
+						const airdate = new Date(Date.parse(airdateString.replace(/\./g, "")))
+						episode.air_date = airdate
+					}
+
+					// console.log(airdateString, airdate)
+					// const  = new Date(Date.parse(airdateString))
 				})
 				setEpisodes(episodes)
 				setIsLoadingDetails(false)

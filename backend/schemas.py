@@ -30,6 +30,7 @@ class Search(BaseModel):
 class _DetailedInfoEpisode(BaseModel):
     tconst: str
     description: str | None
+    air_date: str | None
 
 
 class DetailedInfo(BaseModel):

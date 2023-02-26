@@ -80,6 +80,7 @@ def get_detailed_info(db: Session, parent_tconst: str):
                 {
                     "tconst": tconst,
                     "description": plot,
+                    "air_date": episode.get("original air date"),
                 }
             )
 

@@ -8,6 +8,7 @@ interface EpisodeInfo {
 	start_year: number | null
 	end_year: number | null
 	description?: string
+	air_date?: Date
 }
 
 interface SeriesInfo {
@@ -25,5 +26,6 @@ interface DetailedSeriesInfo {
 	episodes: {
 		tconst: string
 		description: string
+		air_date: string
 	}[]
 }

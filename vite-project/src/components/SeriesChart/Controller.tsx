@@ -7,16 +7,20 @@ interface StoredOption {
 	y_axis: "rating" | "votes"
 	mode: mode
 	colorEnabled: boolean
+	beginAtZero: boolean
 }
 
 const Controller = () => {
 	const storedOptionsString = localStorage.getItem("options")
 	const optionsStored = storedOptionsString ? (JSON.parse(storedOptionsString) as StoredOption) : null
 	const defaultOptions =
-		optionsStored == null ? ({ y_axis: "rating", mode: "both", colorEnabled: true } as StoredOption) : optionsStored
+		optionsStored == null
+			? ({ y_axis: "rating", mode: "both", colorEnabled: true, beginAtZero: true } as StoredOption)
+			: optionsStored
 	console.log(defaultOptions)
 	const [y_axis, setYAxis] = useState<"rating" | "votes">(defaultOptions.y_axis)
 	const [mode, setMode] = useState<mode>(defaultOptions.mode)
+	const [beginAtZero, setBeginAtZero] = useState(defaultOptions.beginAtZero)
 	const [colorEnabled, setColorEnabled] = useState(defaultOptions.colorEnabled)
 
 	const isLoadingDetails = useStore((state) => state.isLoadingDetails)
@@ -32,6 +36,7 @@ const Controller = () => {
 		y_axis: y_axis,
 		mode: mode,
 		colorEnabled: colorEnabled,
+		beginAtZero: beginAtZero,
 	}
 
 	return (
@@ -78,7 +83,6 @@ const Controller = () => {
 					onClick={() => {
 						let saveOption = { ...currentSaveOption }
 						saveOption.colorEnabled = !colorEnabled
-						console.log(saveOption)
 						localStorage.setItem("options", JSON.stringify(saveOption))
 
 						setColorEnabled(!colorEnabled)
@@ -86,10 +90,25 @@ const Controller = () => {
 				>
 					{colorEnabled ? "Color" : "No Color"}
 				</Button>
+				<Button
+					variant="outlined"
+					color={beginAtZero ? "secondary" : "success"}
+					onClick={() => {
+						let saveOption = { ...currentSaveOption }
+						saveOption.beginAtZero = !beginAtZero
+						localStorage.setItem("options", JSON.stringify(saveOption))
+
+						setBeginAtZero(!beginAtZero)
+					}}
+				>
+					{beginAtZero ? "Begin at 0" : "Begin at min"}
+				</Button>
 				{isLoadingDetails ? <CircularProgress className="progress-bar" /> : <></>}
 			</div>
 			<div className="app-element">
-				<SeriesChart options={{ y_axis: y_axis, mode: mode, colorEnabled: colorEnabled }} />
+				<SeriesChart
+					options={{ y_axis: y_axis, mode: mode, colorEnabled: colorEnabled, beginAtZero: beginAtZero }}
+				/>
 			</div>
 		</>
 	)
