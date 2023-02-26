@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { Button, CircularProgress } from "@mui/material"
 import { useStore } from "../../hooks/store"
 import SeriesChart from "./SeriesChart"
@@ -7,20 +7,7 @@ const Controller = () => {
 	const chartOptions = useStore((state) => state.chartOptions)
 	const { y_axis, mode, colorEnabled, beginAtZero } = chartOptions
 	const setChartOptions = useStore((state) => state.setChartOptions)
-	// const storedOptionsString = localStorage.getItem("options")
-	// const optionsStored = storedOptionsString ? (JSON.parse(storedOptionsString) as StoredOption) : null
-	// const defaultOptions =
-	// 	optionsStored == null
-	// 		? ({ y_axis: "rating", mode: "both", colorEnabled: true, beginAtZero: true } as StoredOption)
-	// 		: optionsStored
-	// console.log(defaultOptions)
-	// const [y_axis, setYAxis] = useState<"rating" | "votes">(defaultOptions.y_axis)
-	// const [mode, setMode] = useState<mode>(defaultOptions.mode)
-	// const [beginAtZero, setBeginAtZero] = useState(defaultOptions.beginAtZero)
-	// const [colorEnabled, setColorEnabled] = useState(defaultOptions.colorEnabled)
-
 	const isLoadingDetails = useStore((state) => state.isLoadingDetails)
-	// const isLoadingDetails = true
 
 	const modeText = () => {
 		if (mode === "point") return "Point"

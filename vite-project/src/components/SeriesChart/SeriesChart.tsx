@@ -40,6 +40,7 @@ function breakStringByWidth(str: string, max_width: number) {
 
 const SeriesChart = () => {
 	const options = useStore((state) => state.chartOptions)
+	console.log(options)
 	const isLoadingDetails = useStore((state) => state.isLoadingDetails)
 	const episodes = useStore((state) => state.episodes)
 	const showTitle = useStore((state) => state.showInfo.primary_title)
@@ -122,6 +123,15 @@ const SeriesChart = () => {
 									const index = tooltipInfo[0].dataIndex
 									const episode = episodes[index]
 									let message = `Season ${episode.season_number} Episode ${episode.episode_number}`
+									if (episode.air_date) {
+										// day/month/year
+										const airDateString = episode.air_date.toLocaleString("en-GB", {
+											day: "numeric",
+											month: "numeric",
+											year: "numeric",
+										})
+										message += `\nAired ${airDateString}`
+									}
 									if (episode.description) {
 										const lines = breakStringByWidth(episode.description, 50)
 										const descriptionString = lines.join("\n")

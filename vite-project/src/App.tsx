@@ -36,25 +36,18 @@ function App() {
 					const description = info?.description
 					const airdateString = info?.air_date
 					if (description) episode.description = description
-					// console.log(airdate)
-
 					if (airdateString) {
 						const airdate = new Date(Date.parse(airdateString.replace(/\./g, "")))
 						episode.air_date = airdate
 					}
-
-					// console.log(airdateString, airdate)
-					// const  = new Date(Date.parse(airdateString))
 				})
 				setEpisodes(episodes)
 				setIsLoadingDetails(false)
-
-				console.log(episodes)
 			} catch (error) {
 				if (axios.isCancel(error)) {
 					console.log("Request cancelled")
 				} else {
-					console.log(error)
+					console.error(error)
 					throw error
 				}
 			}
