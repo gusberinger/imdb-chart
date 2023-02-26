@@ -25,6 +25,7 @@ const initialState = {
 	episodes: breakingBad as EpisodeInfo[],
 	isLoadingDetails: false,
 	chartOptions: {
+		x_axis: "episode_number",
 		y_axis: "rating",
 		mode: "line",
 		colorEnabled: true,

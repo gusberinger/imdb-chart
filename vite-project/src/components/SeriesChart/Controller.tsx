@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, CircularProgress } from "@mui/material"
+import { Button, ButtonGroup, CircularProgress } from "@mui/material"
 import { useStore } from "../../hooks/store"
 import SeriesChart from "./SeriesChart"
 
@@ -12,12 +12,12 @@ const Controller = () => {
 	const modeText = () => {
 		if (mode === "point") return "Point"
 		else if (mode === "line") return "Line"
-		else return "Both"
+		else return "Line/Point"
 	}
 
 	return (
 		<>
-			<div className="app-element button-group">
+			<ButtonGroup variant="outlined" color="success">
 				<Button
 					variant="outlined"
 					color={y_axis === "rating" ? "secondary" : "success"}
@@ -27,6 +27,15 @@ const Controller = () => {
 					}}
 				>
 					{y_axis === "rating" ? "Rating" : "Votes"}
+				</Button>
+				<Button
+					variant="outlined"
+					color={beginAtZero ? "secondary" : "success"}
+					onClick={() => {
+						setChartOptions({ ...chartOptions, beginAtZero: !beginAtZero })
+					}}
+				>
+					{beginAtZero ? "Begin at 0" : "Begin at min"}
 				</Button>
 				<Button
 					variant="outlined"
@@ -53,20 +62,8 @@ const Controller = () => {
 				>
 					{colorEnabled ? "Color" : "No Color"}
 				</Button>
-				<Button
-					variant="outlined"
-					color={beginAtZero ? "secondary" : "success"}
-					onClick={() => {
-						setChartOptions({ ...chartOptions, beginAtZero: !beginAtZero })
-					}}
-				>
-					{beginAtZero ? "Begin at 0" : "Begin at min"}
-				</Button>
-				{isLoadingDetails ? <CircularProgress className="progress-bar" /> : <></>}
-			</div>
-			<div className="app-element">
-				<SeriesChart />
-			</div>
+			</ButtonGroup>
+			{isLoadingDetails ? <CircularProgress className="progress-bar" /> : <></>}
 		</>
 	)
 }

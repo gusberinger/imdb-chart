@@ -47,7 +47,8 @@ const SeriesChart = () => {
 
 	if (episodes.length === 0) return <div className="loading-screen">Loading...</div>
 
-	const dates = isLoadingDetails ? null : episodes.map((episode) => episode.air_date)
+	const airDates = episodes.map((episode) => episode.air_date).filter((date) => date !== undefined) as Date[]
+	const dateLabels = airDates.map((date) => date.toLocaleDateString())
 	const labels = episodes.map((_episode, idx) => idx)
 	const ratings = episodes.map((episode) => episode.average_rating)
 	const votes = episodes.map((episode) => episode.num_votes)

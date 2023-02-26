@@ -6,6 +6,12 @@ import { get_episodes, get_more_info } from "./api"
 import Search from "./components/Search/Search"
 import SeriesTable from "./components/SeriesTable/SeriesTable"
 import axios from "axios"
+import { ThemeProvider } from "@mui/material"
+import CssBaseline from "@mui/material"
+
+import { lightTheme, darkTheme } from "./themes/themes"
+import ThemeChanger from "./components/ThemeChanger/ThemeChanger"
+import SeriesChart from "./components/SeriesChart/SeriesChart"
 
 function App() {
 	const showInfo = useStore((state) => state.showInfo)
@@ -13,6 +19,7 @@ function App() {
 	const [currentAbortController, setCurrentAbortController] = useState<AbortController>(new AbortController())
 	const setEpisodes = useStore((state) => state.setEpisodes)
 	const setIsLoadingDetails = useStore((state) => state.setIsLoadingDetails)
+	const theme = useStore((state) => state.theme) === "light" ? lightTheme : darkTheme
 
 	useEffect(() => {
 		const fetchAllEpisodeInfo = async () => {
@@ -56,15 +63,23 @@ function App() {
 	}, [tconst])
 
 	return (
-		<div className="app-container">
-			<div className="app-element search">
-				<Search />
+		<ThemeProvider theme={theme}>
+			{/* <CssBaseline />
+			 */}
+			<div className="app-container">
+				<ThemeChanger />
+				<div className="app-element search">
+					<Search />
+				</div>
+				<Controller />
+				<div className="app-element chart">
+					<SeriesChart />
+				</div>
+				<div className="app-element table">
+					<SeriesTable />
+				</div>
 			</div>
-			<Controller />
-			<div className="app-element table">
-				<SeriesTable />
-			</div>
-		</div>
+		</ThemeProvider>
 	)
 }
 

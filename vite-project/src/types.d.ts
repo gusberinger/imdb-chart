@@ -33,6 +33,7 @@ interface DetailedSeriesInfo {
 
 interface ChartOptions {
 	y_axis: "rating" | "votes"
+	x_axis: "episode_number" | "air_date"
 	mode: mode
 	colorEnabled: boolean
 	beginAtZero: boolean
