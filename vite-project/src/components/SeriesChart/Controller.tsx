@@ -4,16 +4,21 @@ import { useStore } from "../../hooks/store"
 import Search from "../Search/Search"
 import SeriesChart from "./SeriesChart"
 
-const Controller = () => {
-	const [y_axis, setYAxis] = useState<"rating" | "votes">("rating")
-	// const [lineEnabled, setLineEnabled] = useState(true)
-	const [mode, setMode] = useState<mode>("both")
-	const [colorEnabled, setColorEnabled] = useState(true)
-	// const [pointsEnabled, setPointsEnabled] = useState(false)
+interface StoredOption {
+	y_axis: "rating" | "votes"
+	mode: mode
+	colorEnabled: boolean
+}
 
-	const handleModeButton = () => {
-		setYAxis(() => (y_axis === "rating" ? "votes" : "rating"))
-	}
+const Controller = () => {
+	const storedOptionsString = localStorage.getItem("options")
+	const optionsStored = storedOptionsString ? (JSON.parse(storedOptionsString) as StoredOption) : null
+	const defaultOptions =
+		optionsStored == null ? ({ y_axis: "rating", mode: "both", colorEnabled: true } as StoredOption) : optionsStored
+	console.log(defaultOptions)
+	const [y_axis, setYAxis] = useState<"rating" | "votes">(defaultOptions.y_axis)
+	const [mode, setMode] = useState<mode>(defaultOptions.mode)
+	const [colorEnabled, setColorEnabled] = useState(defaultOptions.colorEnabled)
 
 	const modeText = () => {
 		if (mode === "point") return "Point"
@@ -23,20 +28,47 @@ const Controller = () => {
 
 	const showInfo = useStore((state) => state.showInfo)
 
+	const currentSaveOption = {
+		y_axis: y_axis,
+		mode: mode,
+		colorEnabled: colorEnabled,
+	}
+
 	return (
 		<div>
 			<Search />
 
-			<Button variant="outlined" color={y_axis === "rating" ? "secondary" : "success"} onClick={handleModeButton}>
+			<Button
+				variant="outlined"
+				color={y_axis === "rating" ? "secondary" : "success"}
+				onClick={() => {
+					const nextYAxis = y_axis === "rating" ? "votes" : "rating"
+					let saveOption = { ...currentSaveOption }
+					saveOption.y_axis = nextYAxis
+					localStorage.setItem("options", JSON.stringify(saveOption))
+
+					setYAxis(nextYAxis)
+				}}
+			>
 				{y_axis === "rating" ? "Rating" : "Votes"}
 			</Button>
 			<Button
 				variant="outlined"
 				color={mode === "point" ? "secondary" : "success"}
 				onClick={() => {
-					if (mode == "point") setMode("line")
-					else if (mode == "line") setMode("both")
-					else setMode("point")
+					// point -> line -> both -> point cycle
+					let newMode: mode
+
+					if (mode === "point") newMode = "line"
+					else if (mode === "line") newMode = "both"
+					else newMode = "point"
+
+					let saveOption = { ...currentSaveOption } as StoredOption
+					saveOption.mode = newMode
+					console.log("save: ", saveOption)
+					localStorage.setItem("options", JSON.stringify(saveOption))
+
+					setMode(newMode)
 				}}
 			>
 				{modeText()}
@@ -44,7 +76,14 @@ const Controller = () => {
 			<Button
 				variant="outlined"
 				color={colorEnabled ? "secondary" : "success"}
-				onClick={() => setColorEnabled(!colorEnabled)}
+				onClick={() => {
+					let saveOption = { ...currentSaveOption }
+					saveOption.colorEnabled = !colorEnabled
+					console.log(saveOption)
+					localStorage.setItem("options", JSON.stringify(saveOption))
+
+					setColorEnabled(!colorEnabled)
+				}}
 			>
 				{colorEnabled ? "Color" : "No Color"}
 			</Button>
