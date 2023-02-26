@@ -46,12 +46,14 @@ function breakStringByWidth(str: string, max_width: number) {
 }
 
 const SeriesChart = ({ options }: SeriesChartProps) => {
+	const isLoadingDetails = useStore((state) => state.isLoadingDetails)
 	const episodes = useStore((state) => state.episodes)
 	const showTitle = useStore((state) => state.showInfo.primary_title)
 	// const showDetailedInfo = useStore((state) => state.detailedInfo)
 
 	if (episodes.length === 0) return <div className="loading-screen">Loading...</div>
 
+	const dates = isLoadingDetails ? null : episodes.map((episode) => episode.air_date)
 	const labels = episodes.map((_episode, idx) => idx)
 	const ratings = episodes.map((episode) => episode.average_rating)
 	const votes = episodes.map((episode) => episode.num_votes)
