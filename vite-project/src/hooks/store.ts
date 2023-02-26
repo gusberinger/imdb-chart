@@ -8,6 +8,8 @@ interface SeriesStore {
 	setShow: (show: SeriesInfo) => void
 	isLoadingDetails: boolean
 	setIsLoadingDetails: (isLoadingDetails: boolean) => void
+	chartOptions: ChartOptions
+	setChartOptions: (chartOptions: ChartOptions) => void
 	// detailedInfo: { description: string } | null
 	// setDetailedInfo: (detailedInfo: string) => void
 }
@@ -22,12 +24,24 @@ const initialState = {
 	} as SeriesInfo,
 	episodes: breakingBad as EpisodeInfo[],
 	isLoadingDetails: false,
+	chartOptions: {
+		y_axis: "rating",
+		mode: "line",
+		colorEnabled: true,
+		beginAtZero: false,
+	} as ChartOptions,
+
 	// detailedInfo: null as DetailedSeriesInfo | null,
 }
 
-const local = localStorage.getItem("showInfo")
-if (local) {
-	initialState.showInfo = JSON.parse(local) as SeriesInfo
+const localShowInfo = localStorage.getItem("showInfo")
+if (localShowInfo) {
+	initialState.showInfo = JSON.parse(localShowInfo) as SeriesInfo
+}
+
+const localChartOptions = localStorage.getItem("chartOptions")
+if (localChartOptions) {
+	initialState.chartOptions = JSON.parse(localChartOptions) as ChartOptions
 }
 
 export const useStore = create<SeriesStore>((set, get) => ({
@@ -41,6 +55,10 @@ export const useStore = create<SeriesStore>((set, get) => ({
 	},
 	setIsLoadingDetails: (isLoadingDetails: boolean) => {
 		set({ isLoadingDetails: isLoadingDetails })
+	},
+	setChartOptions: (chartOptions: ChartOptions) => {
+		set({ chartOptions: chartOptions })
+		localStorage.setItem("chartOptions", JSON.stringify(chartOptions))
 	},
 	// setDetailedInfo: () => {
 	// 	set({ detailedInfo: detailedInfo })

@@ -11,13 +11,6 @@ Chart.register(CategoryScale)
 Chart.register(LinearScale)
 Chart.register(zoomPlugin)
 
-interface ChartOptions {
-	y_axis: "rating" | "votes"
-	mode: mode
-	colorEnabled: boolean
-	beginAtZero: boolean
-}
-
 interface SeriesChartProps {
 	options: ChartOptions
 }
@@ -45,7 +38,8 @@ function breakStringByWidth(str: string, max_width: number) {
 	return lines
 }
 
-const SeriesChart = ({ options }: SeriesChartProps) => {
+const SeriesChart = () => {
+	const options = useStore((state) => state.chartOptions)
 	const isLoadingDetails = useStore((state) => state.isLoadingDetails)
 	const episodes = useStore((state) => state.episodes)
 	const showTitle = useStore((state) => state.showInfo.primary_title)

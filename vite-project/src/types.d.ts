@@ -29,3 +29,10 @@ interface DetailedSeriesInfo {
 		air_date: string
 	}[]
 }
+
+interface ChartOptions {
+	y_axis: "rating" | "votes"
+	mode: mode
+	colorEnabled: boolean
+	beginAtZero: boolean
+}
