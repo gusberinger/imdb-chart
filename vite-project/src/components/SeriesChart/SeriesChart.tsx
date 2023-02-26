@@ -6,6 +6,7 @@ import { CategoryScale, LinearScale, ScriptableContext } from "chart.js"
 import zoomPlugin from "chartjs-plugin-zoom"
 import { ZoomPluginOptions } from "chartjs-plugin-zoom/types/options"
 import { COLOR_PALLETE, DEFAULT_COLOR } from "../../constants/theme"
+import { useStore } from "../../hooks/store"
 
 Chart.register(CategoryScale)
 Chart.register(LinearScale)
@@ -23,16 +24,11 @@ interface SeriesChartProps {
 	options: ChartOptions
 }
 
-const SeriesChart = ({ parent_tconst, options, showTitle }: SeriesChartProps) => {
-	const [episodes, setEpisodes] = useState<EpisodeInfo[]>([])
-
-	useEffect(() => {
-		const fetchEpisodes = async () => {
-			const episodes = await get_episodes(parent_tconst)
-			setEpisodes(episodes)
-		}
-		fetchEpisodes()
-	}, [parent_tconst])
+const SeriesChart = ({ options }: SeriesChartProps) => {
+	const episodes = useStore((state) => state.episodes)
+	const showTitle = useStore((state) => state.showInfo.primary_title)
+	const showDetailedInfo = useStore((state) => state.detailedInfo)
+	const showDescription = showDetailedInfo ? showDetailedInfo.description : ""
 
 	if (episodes.length === 0) return <div className="loading-screen">Loading...</div>
 
