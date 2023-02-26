@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button } from "@mui/material"
+import { Button, CircularProgress } from "@mui/material"
 import { useStore } from "../../hooks/store"
 import SeriesChart from "./SeriesChart"
 
@@ -19,6 +19,9 @@ const Controller = () => {
 	const [mode, setMode] = useState<mode>(defaultOptions.mode)
 	const [colorEnabled, setColorEnabled] = useState(defaultOptions.colorEnabled)
 
+	const isLoadingDetails = useStore((state) => state.isLoadingDetails)
+	// const isLoadingDetails = true
+
 	const modeText = () => {
 		if (mode === "point") return "Point"
 		else if (mode === "line") return "Line"
@@ -33,7 +36,7 @@ const Controller = () => {
 
 	return (
 		<>
-			<div className="app-element">
+			<div className="app-element button-group">
 				<Button
 					variant="outlined"
 					color={y_axis === "rating" ? "secondary" : "success"}
@@ -83,6 +86,7 @@ const Controller = () => {
 				>
 					{colorEnabled ? "Color" : "No Color"}
 				</Button>
+				{isLoadingDetails ? <CircularProgress className="progress-bar" /> : <></>}
 			</div>
 			<div className="app-element">
 				<SeriesChart options={{ y_axis: y_axis, mode: mode, colorEnabled: colorEnabled }} />

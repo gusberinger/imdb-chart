@@ -4,6 +4,15 @@
 	position: relative;
 }
 
+.button-group {
+	display: flex;
+	justify-content: space-between;
+}
+
+.progress-bar {
+	margin-left: 2rem;
+}
+
 .loading-screen {
 	display: flex;
 	justify-content: center;
