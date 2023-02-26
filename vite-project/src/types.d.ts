@@ -7,6 +7,7 @@ interface EpisodeInfo {
 	primary_title: string | null
 	start_year: number | null
 	end_year: number | null
+	description?: string
 }
 
 interface SeriesInfo {
@@ -22,6 +23,7 @@ type mode = "line" | "point" | "both"
 interface DetailedSeriesInfo {
 	description: string
 	episodes: {
-		plot: string
+		tconst: string
+		description: string
 	}[]
 }

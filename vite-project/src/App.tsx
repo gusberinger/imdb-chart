@@ -16,7 +16,20 @@ function App() {
 			const episodes = await get_episodes(tconst)
 			setEpisodes(episodes)
 			const detailedInfo = await get_more_info(tconst)
-			const episodePlots = detailedInfo.episodes
+			const episodeInfo = detailedInfo.episodes
+
+			// create map of tconst to episode plot
+			const mapping = new Map(episodeInfo.map((episode) => [episode.tconst, episode.description]))
+
+			episodes.forEach((episode) => {
+				const tconst = episode.tconst
+				const description = mapping.get(tconst)
+				if (description == null) return
+				episode.description = description
+			})
+			setEpisodes(episodes)
+
+			console.log(episodes)
 			// episodePlots.forEach((episode) => {
 			// 	console.log(episode)
 			// })

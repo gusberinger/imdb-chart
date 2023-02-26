@@ -21,10 +21,33 @@ interface SeriesChartProps {
 	options: ChartOptions
 }
 
+function breakStringByWidth(str: string, max_width: number) {
+	const words = str.split(" ")
+	const lines = []
+	let currentLine = ""
+
+	for (let i = 0; i < words.length; i++) {
+		const word = words[i]
+
+		if (currentLine.length + word.length <= max_width) {
+			currentLine += word + " "
+		} else {
+			lines.push(currentLine.trim())
+			currentLine = word + " "
+		}
+	}
+
+	if (currentLine) {
+		lines.push(currentLine.trim())
+	}
+
+	return lines
+}
+
 const SeriesChart = ({ options }: SeriesChartProps) => {
 	const episodes = useStore((state) => state.episodes)
 	const showTitle = useStore((state) => state.showInfo.primary_title)
-	const showDetailedInfo = useStore((state) => state.detailedInfo)
+	// const showDetailedInfo = useStore((state) => state.detailedInfo)
 
 	if (episodes.length === 0) return <div className="loading-screen">Loading...</div>
 
@@ -99,10 +122,17 @@ const SeriesChart = ({ options }: SeriesChartProps) => {
 								afterBody: (tooltipInfo) => {
 									const index = tooltipInfo[0].dataIndex
 									const episode = episodes[index]
-									const message = `Season ${episode.season_number} Episode ${episode.episode_number}`
+									let message = `Season ${episode.season_number} Episode ${episode.episode_number}`
+									if (episode.description) {
+										const lines = breakStringByWidth(episode.description, 50)
+										const descriptionString = lines.join("\n")
+										message += `\n${descriptionString}`
+									}
 									return message
 								},
+								title: () => "",
 							},
+							borderWidth: 20,
 						},
 					},
 				}}
