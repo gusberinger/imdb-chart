@@ -22,6 +22,22 @@ class Search(BaseModel):
     start_year: int | None
     end_year: int | None
     num_votes: int
-    
+
+    class Config:
+        orm_mode = True
+
+
+class _EpisodeInfoIMDB(BaseModel):
+    plot: str
+
+
+class _EpisodeInfoList(BaseModel):
+    __root__: dict[str, _EpisodeInfoIMDB]
+
+
+class DefailedInfo(BaseModel):
+    description: str
+    episodes: _EpisodeInfoList
+
     class Config:
         orm_mode = True

@@ -68,6 +68,8 @@ def get_detailed_info(db: Session, parent_tconst: str):
             episode = episodes_json[season_number][episode_number]
             tconst = f"tt{episode.movieID}"
             plot = episode.get("plot").strip()
-            keyed_by_tconst[tconst] = plot
+            keyed_by_tconst[tconst] = {
+                "plot": plot,
+            }
 
     return {"episodes": keyed_by_tconst, "description": description}

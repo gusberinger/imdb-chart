@@ -17,12 +17,11 @@ interface SeriesInfo {
 	num_votes: number
 }
 
-interface SeriesInfo {
-	tconst: string
-	primary_title: string
-	start_year: number | null
-	end_year: number | null
-	num_votes: number
-}
-
 type mode = "line" | "point" | "both"
+
+interface DetailedSeriesInfo {
+	description: string
+	episodes: {
+		plot: string
+	}[]
+}

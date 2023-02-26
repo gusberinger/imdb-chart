@@ -50,7 +50,7 @@ def search(query: str, db: Session = Depends(get_db)):
     return crud.search(db, query=query)
 
 
-@app.get("/detailed_info/{parent_tconst}")
+@app.get("/detailed_info/{parent_tconst}", response_model=schemas.DefailedInfo)
 def get_detailed_info(parent_tconst: str, db: Session = Depends(get_db)):
     # remove tt from parent_tconst
     return crud.get_detailed_info(db, parent_tconst=parent_tconst)
