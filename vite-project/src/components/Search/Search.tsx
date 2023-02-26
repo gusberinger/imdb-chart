@@ -21,21 +21,23 @@ const Search = () => {
 	}
 
 	return (
-		<Autocomplete
-			options={searchResults}
-			getOptionLabel={(option) => getLabel(option)}
-			filterOptions={(options) => options}
-			inputValue={userInput}
-			onInputChange={(event, value) => {
-				setUserInput(value)
-				getSearchResults(value)
-			}}
-			onChange={(event, value) => {
-				if (value == null) return
-				setShow(value)
-			}}
-			renderInput={(params) => <TextField {...params} label="Search" margin="normal" variant="outlined" />}
-		/>
+		<div className="search">
+			<Autocomplete
+				options={searchResults}
+				getOptionLabel={(option) => getLabel(option)}
+				filterOptions={(options) => options}
+				inputValue={userInput}
+				onInputChange={(event, value) => {
+					setUserInput(value)
+					getSearchResults(value)
+				}}
+				onChange={(event, value) => {
+					if (value == null) return
+					setShow(value)
+				}}
+				renderInput={(params) => <TextField {...params} label="Search" margin="normal" variant="outlined" />}
+			/>
+		</div>
 	)
 }
 

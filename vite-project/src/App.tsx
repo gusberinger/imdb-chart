@@ -4,6 +4,8 @@ import Controller from "./components/SeriesChart/Controller"
 import { useStore } from "./hooks/store"
 import { get_episodes, get_more_info } from "./api"
 import Search from "./components/Search/Search"
+import SeriesChart from "./components/SeriesChart/SeriesChart"
+import SeriesTable from "./components/SeriesTable/SeriesTable"
 
 function App() {
 	const showInfo = useStore((state) => state.showInfo)
@@ -41,6 +43,7 @@ function App() {
 		<div className="chartContainer">
 			<Search />
 			<Controller />
+			<SeriesTable />
 		</div>
 	)
 }
