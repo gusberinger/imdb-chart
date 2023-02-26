@@ -24,6 +24,7 @@ const Search = () => {
 		<Autocomplete
 			options={searchResults}
 			getOptionLabel={(option) => getLabel(option)}
+			filterOptions={(options) => options}
 			inputValue={userInput}
 			onInputChange={(event, value) => {
 				setUserInput(value)
