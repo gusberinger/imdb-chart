@@ -12,16 +12,18 @@ const Search = () => {
 		setSearchResults(results)
 	}
 
+	const showInfo = useStore((state) => state.showInfo)
 	const setShow = useStore((state) => state.setShow)
 
 	const getLabel = (option: SeriesInfo) => {
 		if (option.start_year === null) return option.primary_title
 		else if (option.end_year === null) return `${option.primary_title} (${option.start_year}–)`
-		else return `${option.primary_title} (${option.start_year} - ${option.end_year})`
+		else return `${option.primary_title} (${option.start_year}–${option.end_year})`
 	}
 
 	return (
 		<Autocomplete
+			key={showInfo.tconst}
 			fullWidth={true}
 			options={searchResults}
 			getOptionLabel={(option) => getLabel(option)}
