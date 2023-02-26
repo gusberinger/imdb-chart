@@ -1,10 +1,7 @@
+/* may replace chart library so won't worry too much */
 .chart-container {
-	/* height: 100%; */
-	/* max-width: 80rem; */
 	width: 200%;
 	position: relative;
-	/* padding: 1%; */
-	/* padding: 100%; */
 }
 
 .loading-screen {

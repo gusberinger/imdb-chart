@@ -26,7 +26,16 @@ const SeriesTable = () => {
 		},
 	]
 
-	return <MaterialTable data={episodes} columns={columns} title={primary_title} />
+	return (
+		<MaterialTable
+			data={episodes}
+			columns={columns}
+			title={primary_title}
+			options={{
+				draggable: false,
+			}}
+		/>
+	)
 }
 
 export default SeriesTable
