@@ -14,7 +14,7 @@ export const get_episodes = async (parent_tconst: string) => {
 	return data
 }
 
-export const get_more_info = async (parent_tconst: string) => {
-	const { data } = await api.get<DetailedSeriesInfo>(`/detailed_info/${parent_tconst}`)
+export const get_more_info = async (parent_tconst: string, controller: AbortController) => {
+	const { data } = await api.get<DetailedSeriesInfo>(`/detailed_info/${parent_tconst}`, { signal: controller.signal })
 	return data
 }
