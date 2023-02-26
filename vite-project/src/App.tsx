@@ -40,10 +40,14 @@ function App() {
 	}, [tconst])
 
 	return (
-		<div className="chartContainer">
-			<Search />
+		<div className="app-container">
+			<div className="app-element search">
+				<Search />
+			</div>
 			<Controller />
-			<SeriesTable />
+			<div className="app-element table">
+				<SeriesTable />
+			</div>
 		</div>
 	)
 }

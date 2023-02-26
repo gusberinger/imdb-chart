@@ -32,58 +32,62 @@ const Controller = () => {
 	}
 
 	return (
-		<div>
-			<Button
-				variant="outlined"
-				color={y_axis === "rating" ? "secondary" : "success"}
-				onClick={() => {
-					const nextYAxis = y_axis === "rating" ? "votes" : "rating"
-					let saveOption = { ...currentSaveOption }
-					saveOption.y_axis = nextYAxis
-					localStorage.setItem("options", JSON.stringify(saveOption))
+		<>
+			<div className="app-element">
+				<Button
+					variant="outlined"
+					color={y_axis === "rating" ? "secondary" : "success"}
+					onClick={() => {
+						const nextYAxis = y_axis === "rating" ? "votes" : "rating"
+						let saveOption = { ...currentSaveOption }
+						saveOption.y_axis = nextYAxis
+						localStorage.setItem("options", JSON.stringify(saveOption))
 
-					setYAxis(nextYAxis)
-				}}
-			>
-				{y_axis === "rating" ? "Rating" : "Votes"}
-			</Button>
-			<Button
-				variant="outlined"
-				color={mode === "point" ? "secondary" : "success"}
-				onClick={() => {
-					// point -> line -> both -> point cycle
-					let newMode: mode
+						setYAxis(nextYAxis)
+					}}
+				>
+					{y_axis === "rating" ? "Rating" : "Votes"}
+				</Button>
+				<Button
+					variant="outlined"
+					color={mode === "point" ? "secondary" : "success"}
+					onClick={() => {
+						// point -> line -> both -> point cycle
+						let newMode: mode
 
-					if (mode === "point") newMode = "line"
-					else if (mode === "line") newMode = "both"
-					else newMode = "point"
+						if (mode === "point") newMode = "line"
+						else if (mode === "line") newMode = "both"
+						else newMode = "point"
 
-					let saveOption = { ...currentSaveOption } as StoredOption
-					saveOption.mode = newMode
-					console.log("save: ", saveOption)
-					localStorage.setItem("options", JSON.stringify(saveOption))
+						let saveOption = { ...currentSaveOption } as StoredOption
+						saveOption.mode = newMode
+						console.log("save: ", saveOption)
+						localStorage.setItem("options", JSON.stringify(saveOption))
 
-					setMode(newMode)
-				}}
-			>
-				{modeText()}
-			</Button>
-			<Button
-				variant="outlined"
-				color={colorEnabled ? "secondary" : "success"}
-				onClick={() => {
-					let saveOption = { ...currentSaveOption }
-					saveOption.colorEnabled = !colorEnabled
-					console.log(saveOption)
-					localStorage.setItem("options", JSON.stringify(saveOption))
+						setMode(newMode)
+					}}
+				>
+					{modeText()}
+				</Button>
+				<Button
+					variant="outlined"
+					color={colorEnabled ? "secondary" : "success"}
+					onClick={() => {
+						let saveOption = { ...currentSaveOption }
+						saveOption.colorEnabled = !colorEnabled
+						console.log(saveOption)
+						localStorage.setItem("options", JSON.stringify(saveOption))
 
-					setColorEnabled(!colorEnabled)
-				}}
-			>
-				{colorEnabled ? "Color" : "No Color"}
-			</Button>
-			<SeriesChart options={{ y_axis: y_axis, mode: mode, colorEnabled: colorEnabled }} />
-		</div>
+						setColorEnabled(!colorEnabled)
+					}}
+				>
+					{colorEnabled ? "Color" : "No Color"}
+				</Button>
+			</div>
+			<div className="app-element">
+				<SeriesChart options={{ y_axis: y_axis, mode: mode, colorEnabled: colorEnabled }} />
+			</div>
+		</>
 	)
 }
 

@@ -1,6 +1,10 @@
 .chart-container {
-	margin-inline: 6rem;
-	overflow: auto;
+	/* height: 100%; */
+	/* max-width: 80rem; */
+	width: 200%;
+	position: relative;
+	/* padding: 1%; */
+	/* padding: 100%; */
 }
 
 .loading-screen {
@@ -8,4 +12,24 @@
 	justify-content: center;
 	align-items: center;
 	font-family: "Roboto", sans-serif;
+}
+
+.app-element {
+	max-width: 80rem;
+}
+
+.search {
+	max-width: 40rem;
+	width: 100%;
+}
+
+.app-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.table {
+	width: 100%;
+	max-width: 80rem;
 }

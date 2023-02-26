@@ -69,6 +69,8 @@ const SeriesChart = ({ options }: SeriesChartProps) => {
 	return (
 		<div className="chart-container">
 			<Line
+				// width={1000}
+				// height={500}
 				data={{
 					labels: labels,
 					datasets: [
@@ -89,7 +91,7 @@ const SeriesChart = ({ options }: SeriesChartProps) => {
 				options={{
 					responsive: true,
 					animation: { duration: 5 },
-					maintainAspectRatio: true,
+					// maintainAspectRatio: true,
 					scales: {
 						y: {
 							beginAtZero: true,
