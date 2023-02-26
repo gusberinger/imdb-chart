@@ -4,7 +4,6 @@ import Controller from "./components/SeriesChart/Controller"
 import { useStore } from "./hooks/store"
 import { get_episodes, get_more_info } from "./api"
 import Search from "./components/Search/Search"
-import SeriesChart from "./components/SeriesChart/SeriesChart"
 import SeriesTable from "./components/SeriesTable/SeriesTable"
 import axios from "axios"
 
@@ -16,8 +15,9 @@ function App() {
 
 	useEffect(() => {
 		const fetchAllEpisodeInfo = async () => {
-			// if (controller.signal.aborted === false) controller.abort()
-
+			// Use a new abort controller for each request
+			// This is to prevent the episode description request
+			// from overwriting the episode info request
 			currentAbortController.abort()
 			const newAbortController = new AbortController()
 			setCurrentAbortController(newAbortController)
@@ -27,8 +27,6 @@ function App() {
 				setEpisodes(episodes)
 				const detailedInfo = await get_more_info(tconst, newAbortController)
 				const episodeInfo = detailedInfo.episodes
-
-				// create map of tconst to episode plot
 				const mapping = new Map(episodeInfo.map((episode) => [episode.tconst, episode.description]))
 
 				episodes.forEach((episode) => {
@@ -48,9 +46,6 @@ function App() {
 					throw error
 				}
 			}
-			// episodePlots.forEach((episode) => {
-			// 	console.log(episode)
-			// })
 		}
 		fetchAllEpisodeInfo()
 	}, [tconst])
