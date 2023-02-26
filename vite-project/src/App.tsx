@@ -10,19 +10,18 @@ function App() {
 	const { tconst } = showInfo
 
 	const setEpisodes = useStore((state) => state.setEpisodes)
-	const setDetailedInfo = useStore((state) => state.setDetailedInfo)
 
 	useEffect(() => {
-		const fetchEpisodes = async () => {
+		const fetchAllEpisodeInfo = async () => {
 			const episodes = await get_episodes(tconst)
 			setEpisodes(episodes)
+			// const detailedInfo = await get_more_info(tconst)
+			// const episodePlots = detailedInfo.episodes
+			// episodePlots.forEach((episode) => {
+			// 	console.log(episode)
+			// })
 		}
-		const fetchDetailedInfo = async () => {
-			const detailedInfo = await get_more_info(tconst)
-			setDetailedInfo(detailedInfo)
-		}
-		fetchEpisodes()
-		fetchDetailedInfo()
+		fetchAllEpisodeInfo()
 	}, [tconst])
 
 	return (

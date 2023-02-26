@@ -61,15 +61,17 @@ def get_detailed_info(db: Session, parent_tconst: str):
     ia.update(series, "episodes")
     episodes_json = series["episodes"]
 
-    keyed_by_tconst = {}
+    info_to_return = []
 
     for season_number in episodes_json:
         for episode_number in episodes_json[season_number]:
             episode = episodes_json[season_number][episode_number]
             tconst = f"tt{episode.movieID}"
             plot = episode.get("plot").strip()
-            keyed_by_tconst[tconst] = {
-                "plot": plot,
-            }
-
-    return {"episodes": keyed_by_tconst, "description": description}
+            info_to_return.append(
+                {
+                    "tconst": tconst,
+                    "plot": plot,
+                }
+            )
+    return {"episodes": info_to_return, "description": description}

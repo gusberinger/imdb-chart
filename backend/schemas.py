@@ -27,17 +27,15 @@ class Search(BaseModel):
         orm_mode = True
 
 
-class _EpisodeInfoIMDB(BaseModel):
-    plot: str
+class _DetailedInfoEpisode(BaseModel):
+    tconst: str
+    description: str | None
 
 
-class _EpisodeInfoList(BaseModel):
-    __root__: dict[str, _EpisodeInfoIMDB]
-
-
-class DefailedInfo(BaseModel):
-    description: str
-    episodes: _EpisodeInfoList
+class DetailedInfo(BaseModel):
+    parent_tconst: str
+    description: str | None
+    episodes: list[_DetailedInfoEpisode]
 
     class Config:
         orm_mode = True

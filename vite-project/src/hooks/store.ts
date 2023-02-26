@@ -6,8 +6,8 @@ interface SeriesStore {
 	episodes: EpisodeInfo[]
 	setEpisodes: (episodes: EpisodeInfo[]) => void
 	setShow: (show: SeriesInfo) => void
-	detailedInfo: DetailedSeriesInfo | null
-	setDetailedInfo: (detailedInfo: DetailedSeriesInfo) => void
+	// detailedInfo: { description: string } | null
+	// setDetailedInfo: (detailedInfo: string) => void
 }
 
 const initialState = {
@@ -19,7 +19,7 @@ const initialState = {
 		num_votes: 1900000,
 	} as SeriesInfo,
 	episodes: breakingBad as EpisodeInfo[],
-	detailedInfo: null as DetailedSeriesInfo | null,
+	// detailedInfo: null as DetailedSeriesInfo | null,
 }
 
 const local = localStorage.getItem("showInfo")
@@ -36,7 +36,7 @@ export const useStore = create<SeriesStore>((set, get) => ({
 	setEpisodes: (episodes: EpisodeInfo[]) => {
 		set({ episodes: episodes })
 	},
-	setDetailedInfo: (detailedInfo: DetailedSeriesInfo) => {
-		set({ detailedInfo: detailedInfo })
-	},
+	// setDetailedInfo: () => {
+	// 	set({ detailedInfo: detailedInfo })
+	// },
 }))
