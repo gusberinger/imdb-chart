@@ -8,6 +8,10 @@ const Search = () => {
 	const [userInput, setUserInput] = useState("")
 
 	const getSearchResults = async (input: string) => {
+		if (input === "") {
+			setSearchResults([])
+			return
+		}
 		const results = await search_title(input)
 		setSearchResults(results)
 	}
@@ -24,19 +28,23 @@ const Search = () => {
 	return (
 		<Autocomplete
 			key={showInfo.tconst}
+			autoComplete
+			noOptionsText={null}
 			fullWidth={true}
 			options={searchResults}
 			getOptionLabel={(option) => getLabel(option)}
 			filterOptions={(options) => options}
 			inputValue={userInput}
-			autoComplete
 			onInputChange={(event, value) => {
+				if (event.type !== "change") return
 				setUserInput(value)
 				getSearchResults(value)
 			}}
 			onChange={(event, value) => {
-				if (value == null) return
+				if (value == null || event.type !== "click") return
 				setShow(value)
+				setUserInput("")
+				setSearchResults([])
 			}}
 			renderInput={(params) => <TextField {...params} label="Search" margin="normal" variant="outlined" />}
 		/>
