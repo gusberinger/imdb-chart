@@ -3,6 +3,7 @@ import "./App.css"
 import Controller from "./components/SeriesChart/Controller"
 import { useStore } from "./hooks/store"
 import { get_episodes, get_more_info } from "./api"
+import Search from "./components/Search/Search"
 
 function App() {
 	const showInfo = useStore((state) => state.showInfo)
@@ -14,14 +15,11 @@ function App() {
 	useEffect(() => {
 		const fetchEpisodes = async () => {
 			const episodes = await get_episodes(tconst)
-			// useStore((state) => state.setEpisodes(episodes))
 			setEpisodes(episodes)
 		}
 		const fetchDetailedInfo = async () => {
 			const detailedInfo = await get_more_info(tconst)
 			setDetailedInfo(detailedInfo)
-			console.log(detailedInfo)
-			// useStore((state) => state.setDetailedInfo(detailedInfo))
 		}
 		fetchEpisodes()
 		fetchDetailedInfo()
@@ -29,6 +27,7 @@ function App() {
 
 	return (
 		<div className="chartContainer">
+			<Search />
 			<Controller />
 		</div>
 	)

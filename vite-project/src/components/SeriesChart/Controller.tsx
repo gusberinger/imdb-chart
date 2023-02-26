@@ -1,7 +1,6 @@
-import { Button } from "@mui/material"
 import React, { useState } from "react"
+import { Button } from "@mui/material"
 import { useStore } from "../../hooks/store"
-import Search from "../Search/Search"
 import SeriesChart from "./SeriesChart"
 
 interface StoredOption {
@@ -26,8 +25,6 @@ const Controller = () => {
 		else return "Both"
 	}
 
-	const showInfo = useStore((state) => state.showInfo)
-
 	const currentSaveOption = {
 		y_axis: y_axis,
 		mode: mode,
@@ -36,8 +33,6 @@ const Controller = () => {
 
 	return (
 		<div>
-			<Search />
-
 			<Button
 				variant="outlined"
 				color={y_axis === "rating" ? "secondary" : "success"}
@@ -87,16 +82,7 @@ const Controller = () => {
 			>
 				{colorEnabled ? "Color" : "No Color"}
 			</Button>
-
-			<SeriesChart
-				parent_tconst={showInfo.tconst}
-				showTitle={showInfo.primary_title}
-				options={{
-					y_axis: y_axis,
-					mode: mode,
-					colorEnabled: colorEnabled,
-				}}
-			/>
+			<SeriesChart options={{ y_axis: y_axis, mode: mode, colorEnabled: colorEnabled }} />
 		</div>
 	)
 }

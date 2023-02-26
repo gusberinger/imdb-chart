@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { Line } from "react-chartjs-2"
-import { get_episodes } from "../../api"
 import Chart from "chart.js/auto"
 import { CategoryScale, LinearScale, ScriptableContext } from "chart.js"
 import zoomPlugin from "chartjs-plugin-zoom"
@@ -19,8 +18,6 @@ interface ChartOptions {
 }
 
 interface SeriesChartProps {
-	parent_tconst: string
-	showTitle: string
 	options: ChartOptions
 }
 
@@ -28,14 +25,12 @@ const SeriesChart = ({ options }: SeriesChartProps) => {
 	const episodes = useStore((state) => state.episodes)
 	const showTitle = useStore((state) => state.showInfo.primary_title)
 	const showDetailedInfo = useStore((state) => state.detailedInfo)
-	const showDescription = showDetailedInfo ? showDetailedInfo.description : ""
 
 	if (episodes.length === 0) return <div className="loading-screen">Loading...</div>
 
 	const labels = episodes.map((_episode, idx) => idx)
 	const ratings = episodes.map((episode) => episode.average_rating)
 	const votes = episodes.map((episode) => episode.num_votes)
-	const titles = episodes.map((episode) => (episode.primary_title ? episode.primary_title : "[No Title]"))
 
 	const getColorFromCtx = (ctx: ScriptableContext<"line">) => {
 		const index = ctx.dataIndex
@@ -114,7 +109,6 @@ const SeriesChart = ({ options }: SeriesChartProps) => {
 			/>
 		</div>
 	)
-	// return <div className="episodes">{JSON.stringify(episodes)}</div>
 }
 
 export default SeriesChart
