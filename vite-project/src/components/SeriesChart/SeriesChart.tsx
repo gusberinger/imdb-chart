@@ -40,7 +40,6 @@ function breakStringByWidth(str: string, max_width: number) {
 
 const SeriesChart = () => {
 	const options = useStore((state) => state.chartOptions)
-	console.log(options)
 	const isLoadingDetails = useStore((state) => state.isLoadingDetails)
 	const episodes = useStore((state) => state.episodes)
 	const showTitle = useStore((state) => state.showInfo.primary_title)

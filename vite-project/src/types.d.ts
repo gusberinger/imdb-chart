@@ -20,6 +20,7 @@ interface SeriesInfo {
 }
 
 type mode = "line" | "point" | "both"
+type theme = "light" | "dark"
 
 interface DetailedSeriesInfo {
 	description: string

@@ -10,8 +10,8 @@ interface SeriesStore {
 	setIsLoadingDetails: (isLoadingDetails: boolean) => void
 	chartOptions: ChartOptions
 	setChartOptions: (chartOptions: ChartOptions) => void
-	// detailedInfo: { description: string } | null
-	// setDetailedInfo: (detailedInfo: string) => void
+	theme: theme
+	setTheme: (theme: theme) => void
 }
 
 const initialState = {
@@ -30,8 +30,7 @@ const initialState = {
 		colorEnabled: true,
 		beginAtZero: false,
 	} as ChartOptions,
-
-	// detailedInfo: null as DetailedSeriesInfo | null,
+	theme: "light" as theme,
 }
 
 const localShowInfo = localStorage.getItem("showInfo")
@@ -42,6 +41,11 @@ if (localShowInfo) {
 const localChartOptions = localStorage.getItem("chartOptions")
 if (localChartOptions) {
 	initialState.chartOptions = JSON.parse(localChartOptions) as ChartOptions
+}
+
+const localTheme = localStorage.getItem("theme")
+if (localTheme) {
+	initialState.theme = localTheme as theme
 }
 
 export const useStore = create<SeriesStore>((set, get) => ({
@@ -60,7 +64,8 @@ export const useStore = create<SeriesStore>((set, get) => ({
 		set({ chartOptions: chartOptions })
 		localStorage.setItem("chartOptions", JSON.stringify(chartOptions))
 	},
-	// setDetailedInfo: () => {
-	// 	set({ detailedInfo: detailedInfo })
-	// },
+	setTheme: (theme: theme) => {
+		set({ theme: theme })
+		localStorage.setItem("theme", theme)
+	},
 }))
