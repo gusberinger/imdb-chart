@@ -33,7 +33,6 @@ class _DetailedInfoEpisode(BaseModel):
 
 
 class DetailedInfo(BaseModel):
-    parent_tconst: str
     description: str | None
     episodes: list[_DetailedInfoEpisode]
 

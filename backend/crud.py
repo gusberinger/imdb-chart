@@ -71,7 +71,7 @@ def get_detailed_info(db: Session, parent_tconst: str):
             info_to_return.append(
                 {
                     "tconst": tconst,
-                    "plot": plot,
+                    "description": plot,
                 }
             )
     return {"episodes": info_to_return, "description": description}

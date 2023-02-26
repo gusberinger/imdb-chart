@@ -15,8 +15,8 @@ function App() {
 		const fetchAllEpisodeInfo = async () => {
 			const episodes = await get_episodes(tconst)
 			setEpisodes(episodes)
-			// const detailedInfo = await get_more_info(tconst)
-			// const episodePlots = detailedInfo.episodes
+			const detailedInfo = await get_more_info(tconst)
+			const episodePlots = detailedInfo.episodes
 			// episodePlots.forEach((episode) => {
 			// 	console.log(episode)
 			// })
