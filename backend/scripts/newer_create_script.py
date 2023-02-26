@@ -78,6 +78,15 @@ CREATE_SEARCH_TABLE = """
             AND b.tconst IN (SELECT DISTINCT parent_tconst FROM episodes);
 """
 
+CREATE_CACHE_TABLE = """
+    CREATE TABLE IF NOT EXISTS cache (
+        tconst VARCHAR(255) PRIMARY KEY,
+        created_at TIMESTAMP DEFAULT NOW(),
+        json_data JSONB NOT NULL
+    );
+"""
+
+
 DROP_INTERFACE_TABLES = """
     DROP TABLE IF EXISTS ratings;
     DROP TABLE IF EXISTS episode_index;
@@ -106,6 +115,7 @@ if __name__ == "__main__":
     cur.execute(CREATE_RATINGS_TABLE)
     cur.execute(CREATE_EPISODE_INDEX_TABLE)
     cur.execute(CREATE_BASICS_TABLE)
+    cur.execute(CREATE_CACHE_TABLE)
     print("Tables created successfully")
 
     with open(BASICS_FILTERED_FILEPATH, "r") as f:

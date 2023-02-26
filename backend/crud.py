@@ -53,25 +53,46 @@ def search(db: Session, query: str):
 
 
 def get_detailed_info(db: Session, parent_tconst: str):
+    # check the cache
+    cache = (
+        db.query(models.CacheTable)
+        .filter(models.CacheTable.tconst == parent_tconst)
+        .first()
+    )
+    if cache:
+        return cache.json_data
+
     formatted_parent_tconst = parent_tconst[2:]
-    series = ia.get_movie(formatted_parent_tconst)
-    # plot outline
-    description = series.get("plot outline")
+    imdb_series = ia.get_movie(formatted_parent_tconst)
+    series_escription = imdb_series.get("plot outline")
 
-    ia.update(series, "episodes")
-    episodes_json = series["episodes"]
+    ia.update(imdb_series, "episodes")
+    imdb_episodes = imdb_series["episodes"]
 
-    info_to_return = []
+    episode_json = []
 
-    for season_number in episodes_json:
-        for episode_number in episodes_json[season_number]:
-            episode = episodes_json[season_number][episode_number]
+    for season_number in imdb_episodes:
+        for episode_number in imdb_episodes[season_number]:
+            episode = imdb_episodes[season_number][episode_number]
             tconst = f"tt{episode.movieID}"
             plot = episode.get("plot").strip()
-            info_to_return.append(
+            episode_json.append(
                 {
                     "tconst": tconst,
                     "description": plot,
                 }
             )
-    return {"episodes": info_to_return, "description": description}
+
+    json = {
+        "episodes": episode_json,
+        "description": series_escription,
+    }
+
+    # add to cache
+    cache = models.CacheTable(
+        tconst=parent_tconst,
+        json_data=json,
+    )
+    db.add(cache)
+    db.commit()
+    return json

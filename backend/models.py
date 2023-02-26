@@ -1,5 +1,7 @@
 from database import Base
 from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy.dialects.postgresql import JSONB
+
 
 class EpisodeTable(Base):
     __tablename__ = "episodes"
@@ -12,3 +14,10 @@ class EpisodeTable(Base):
     primary_title = Column(String)
     start_year = Column(Integer)
     end_year = Column(Integer)
+
+
+class CacheTable(Base):
+    __tablename__ = "cache"
+    tconst = Column(String, primary_key=True)
+    created_at = Column(String)
+    json_data = Column(JSONB)
