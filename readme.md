@@ -10,4 +10,4 @@ The architecture may be improved by moving do a dedicated search service like El
 ## Data
 
 IMDb provides limited TSV dumps of their data. This data is limited to episode titles, episode ratings, and episode numbers (i.e Season 1, Episode 5).
-We supplement this data by directly querying IMDb using the python Cinemagoer library. If the show has ended, we cache the results for six months. If the show is still currently being made, we cache the results for 2 weeks.
+We supplement this data by directly querying IMDb using the python Cinemagoer library. If the show has ended, we cache the results for six months, otherwise we cache the results for 2 weeks. We currently only get episode airdate, episode descriptions, and show descriptions using Cinemagoer, but this may be extended in the future.
