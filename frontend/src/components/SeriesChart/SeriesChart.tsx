@@ -2,14 +2,11 @@ import React from "react"
 import { Line } from "react-chartjs-2"
 import Chart from "chart.js/auto"
 import { CategoryScale, LinearScale, ScriptableContext } from "chart.js"
-import zoomPlugin from "chartjs-plugin-zoom"
-import { ZoomPluginOptions } from "chartjs-plugin-zoom/types/options"
 import { COLOR_PALLETE, DEFAULT_COLOR } from "../../constants/theme"
 import { useStore } from "../../hooks/store"
 
 Chart.register(CategoryScale)
 Chart.register(LinearScale)
-Chart.register(zoomPlugin)
 
 interface SeriesChartProps {
 	options: ChartOptions
@@ -106,11 +103,6 @@ const SeriesChart = () => {
 									? `${showTitle} - Episode Ratings`
 									: `${showTitle} - Episode Votes`,
 						},
-						zoom: {
-							wheel: { enabled: true },
-							pinch: { enabled: true },
-							mode: "xy",
-						} as ZoomPluginOptions,
 						tooltip: {
 							callbacks: {
 								label: (ctx) => {
