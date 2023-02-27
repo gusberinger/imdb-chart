@@ -1,13 +1,22 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import getpass
+from dotenv import load_dotenv
 
-# SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
-username = getpass.getuser()
-SQLALCHEMY_DATABASE_URL = f"postgresql://postgres:postgres@localhost:5432/imdb"
+load_dotenv()
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+
+class DatabaseURLNotSpecified(Exception):
+    pass
+
+
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if DATABASE_URL is None:
+    raise DatabaseURLNotSpecified("DATABASE_URL is not specified")
+
+engine = create_engine(DATABASE_URL)
 sessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
