@@ -8,6 +8,7 @@ import MaterialTable, {
 const SeriesTable = () => {
 	const episodes = useStore((state) => state.episodes)
 	const { primary_title } = useStore((state) => state.showInfo)
+	const theme = useStore((state) => state.theme)
 
 	const columns = [
 		{ title: "Title", field: "primary_title" },
@@ -33,6 +34,16 @@ const SeriesTable = () => {
 			title={primary_title}
 			options={{
 				draggable: false,
+				rowStyle: {
+					fontFamily: "Roboto, sans-serif",
+					color: theme === "light" ? "#000" : "#fff",
+					backgroundColor: theme === "light" ? "#fff" : "#2d3338",
+				},
+				headerStyle: {
+					fontFamily: "Roboto, sans-serif",
+					color: theme === "light" ? "#000" : "#fff",
+					backgroundColor: theme === "light" ? "#fff" : "#2d3338",
+				},
 			}}
 		/>
 	)
