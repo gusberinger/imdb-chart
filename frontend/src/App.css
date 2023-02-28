@@ -1,6 +1,6 @@
 /* may replace chart library so won't worry too much */
 .chart-container {
-	width: 200%;
+	width: 100%;
 	position: relative;
 }
 
@@ -33,6 +33,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	gap: 1rem;
 }
 
 .table {
