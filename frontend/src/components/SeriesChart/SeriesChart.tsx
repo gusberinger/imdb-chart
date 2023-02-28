@@ -115,6 +115,8 @@ const SeriesChart = () => {
 									const index = tooltipInfo[0].dataIndex
 									const episode = episodes[index]
 									let message = `Season ${episode.season_number} Episode ${episode.episode_number}`
+									message += `\n${episode.average_rating}/10`
+									message += `\n${episode.num_votes} votes`
 									if (episode.air_date) {
 										// day/month/year
 										const airDateString = episode.air_date.toLocaleString("en-GB", {
