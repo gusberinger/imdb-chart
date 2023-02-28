@@ -8,10 +8,6 @@ import { useStore } from "../../hooks/store"
 Chart.register(CategoryScale)
 Chart.register(LinearScale)
 
-interface SeriesChartProps {
-	options: ChartOptions
-}
-
 function breakStringByWidth(str: string, max_width: number) {
 	const words = str.split(" ")
 	const lines = []
@@ -37,15 +33,11 @@ function breakStringByWidth(str: string, max_width: number) {
 
 const SeriesChart = () => {
 	const options = useStore((state) => state.chartOptions)
-	const isLoadingDetails = useStore((state) => state.isLoadingDetails)
 	const episodes = useStore((state) => state.episodes)
 	const showTitle = useStore((state) => state.showInfo.primary_title)
-	// const showDetailedInfo = useStore((state) => state.detailedInfo)
 
 	if (episodes.length === 0) return <div className="loading-screen">Loading...</div>
 
-	const airDates = episodes.map((episode) => episode.air_date).filter((date) => date !== undefined) as Date[]
-	const dateLabels = airDates.map((date) => date.toLocaleDateString())
 	const labels = episodes.map((_episode, idx) => idx)
 	const ratings = episodes.map((episode) => episode.average_rating)
 	const votes = episodes.map((episode) => episode.num_votes)

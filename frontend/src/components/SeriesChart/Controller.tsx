@@ -1,7 +1,6 @@
 import React from "react"
 import { Button, ButtonGroup, CircularProgress } from "@mui/material"
 import { useStore } from "../../hooks/store"
-import SeriesChart from "./SeriesChart"
 
 const Controller = () => {
 	const chartOptions = useStore((state) => state.chartOptions)

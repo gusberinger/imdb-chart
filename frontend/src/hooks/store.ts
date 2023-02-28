@@ -49,7 +49,7 @@ if (localTheme) {
 	initialState.theme = localTheme as theme
 }
 
-export const useStore = create<SeriesStore>((set, get) => ({
+export const useStore = create<SeriesStore>((set) => ({
 	...initialState,
 	setShow: (show: SeriesInfo) => {
 		set({ showInfo: show })

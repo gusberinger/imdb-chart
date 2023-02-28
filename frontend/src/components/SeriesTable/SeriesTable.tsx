@@ -1,9 +1,6 @@
 import React from "react"
 import { useStore } from "../../hooks/store"
-import MaterialTable, {
-	MTableAction,
-	/*, etc...*/
-} from "@material-table/core"
+import MaterialTable from "@material-table/core"
 
 const SeriesTable = () => {
 	const episodes = useStore((state) => state.episodes)

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import "./App.css"
 import Controller from "./components/SeriesChart/Controller"
 import { useStore } from "./hooks/store"
