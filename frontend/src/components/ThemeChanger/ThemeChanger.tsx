@@ -1,5 +1,5 @@
-import { Switch } from "@mui/material"
 import React from "react"
+import { Switch } from "@mui/material"
 import { useStore } from "../../hooks/store"
 
 const ThemeChanger = () => {
@@ -9,8 +9,8 @@ const ThemeChanger = () => {
 	return (
 		<div>
 			<Switch
-				value={theme}
-				onChange={(event, checked) => {
+				checked={theme === "dark"}
+				onChange={(_event, checked) => {
 					setTheme(checked ? "dark" : "light")
 				}}
 			/>
