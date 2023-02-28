@@ -36,7 +36,7 @@ const Search = () => {
 			filterOptions={(options) => options}
 			inputValue={userInput}
 			onInputChange={(event, value) => {
-				if (event.type !== "change") return
+				if (event && event.type !== "change") return
 				setUserInput(value)
 				getSearchResults(value)
 			}}
