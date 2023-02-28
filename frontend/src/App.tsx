@@ -6,8 +6,7 @@ import { get_episodes, get_more_info } from "./api"
 import Search from "./components/Search/Search"
 import SeriesTable from "./components/SeriesTable/SeriesTable"
 import axios from "axios"
-import { ThemeProvider } from "@mui/material"
-import CssBaseline from "@mui/material"
+import { GlobalStyles, ThemeProvider } from "@mui/material"
 
 import { lightTheme, darkTheme } from "./themes/themes"
 import ThemeChanger from "./components/ThemeChanger/ThemeChanger"
@@ -64,8 +63,13 @@ function App() {
 
 	return (
 		<ThemeProvider theme={theme}>
-			{/* <CssBaseline />
-			 */}
+			<GlobalStyles
+				styles={{
+					body: {
+						backgroundColor: theme.palette.background.default,
+					},
+				}}
+			/>
 			<div className="app-container">
 				<ThemeChanger />
 				<div className="app-element search">

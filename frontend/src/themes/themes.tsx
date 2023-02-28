@@ -3,14 +3,16 @@ import { createTheme } from "@mui/material/styles"
 
 export const lightTheme = createTheme({
 	palette: {
-		primary: blue,
-		secondary: pink,
+		background: {
+			default: "#fff",
+		},
 	},
 })
 
 export const darkTheme = createTheme({
 	palette: {
-		primary: red,
-		secondary: pink,
+		background: {
+			default: "#2d3338",
+		},
 	},
 })
