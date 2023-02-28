@@ -57,7 +57,16 @@ CREATE_EPISODES_TABLE = """
         WHERE
             (b.title_type='tvEpisode' OR b.title_type='tvMiniSeries')
             AND e.episode_number IS NOT NULL
-            AND e.season_number IS NOT NULL;
+            AND e.season_number IS NOT NULL
+"""
+
+DROP_EMPTY_SERIES = """
+   DELETE FROM episodes WHERE parent_tconst IN (
+        SELECT parent_tconst
+        FROM episodes
+        GROUP BY parent_tconst
+        HAVING COUNT(*) < 4
+    );
 """
 
 CREATE_SEARCH_TABLE = """
@@ -140,6 +149,9 @@ if __name__ == "__main__":
 
     cur.execute(CREATE_EPISODES_TABLE)
     print("Episodes table created successfully")
+
+    cur.execute(DROP_EMPTY_SERIES)
+    print("Empty series dropped successfully")
 
     cur.execute(CREATE_SEARCH_TABLE)
     print("Search table created successfully")
