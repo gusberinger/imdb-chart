@@ -1,4 +1,4 @@
-import { AppBar, CircularProgress, Container, Stack, Toolbar, Typography } from "@mui/material"
+import { AppBar, Container, Stack, Toolbar, Typography } from "@mui/material"
 import React from "react"
 import { useStore } from "../../hooks/store"
 import { getSeriesLabel } from "../../utils"
@@ -8,7 +8,6 @@ import SettingsIcon from "../SettingsIcon/SettingsIcon"
 
 const Header = () => {
 	const showInfo = useStore((state) => state.showInfo)
-	const isLoadingDetails = useStore((state) => state.isLoadingDetails)
 
 	return (
 		<AppBar position="static" color="primary" enableColorOnDark>
@@ -23,10 +22,9 @@ const Header = () => {
 						</Typography>
 					</Stack>
 					<Typography variant="h6">{getSeriesLabel(showInfo)}</Typography>
-					<Stack direction={"row"} spacing={2} alignItems="center">
+					<Stack direction={"row"} spacing={2} alignItems="center" sx={{ flexShrink: 1 }}>
 						<ThemeChanger />
 						<SettingsIcon />
-						{isLoadingDetails ? <CircularProgress color="secondary" /> : null}
 					</Stack>
 				</Container>
 			</Toolbar>
