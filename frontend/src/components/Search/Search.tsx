@@ -2,6 +2,7 @@ import { Autocomplete, TextField } from "@mui/material"
 import React, { useState } from "react"
 import { search_title } from "../../api"
 import { useStore } from "../../hooks/store"
+import { getSeriesLabel } from "../../utils"
 
 const Search = () => {
 	const [searchResults, setSearchResults] = useState<SeriesInfo[]>([])
@@ -19,12 +20,6 @@ const Search = () => {
 	const showInfo = useStore((state) => state.showInfo)
 	const setShow = useStore((state) => state.setShow)
 
-	const getLabel = (option: SeriesInfo) => {
-		if (option.start_year === null) return option.primary_title
-		else if (option.end_year === null) return `${option.primary_title} (${option.start_year}–)`
-		else return `${option.primary_title} (${option.start_year}–${option.end_year})`
-	}
-
 	return (
 		<Autocomplete
 			key={showInfo.tconst}
@@ -32,7 +27,7 @@ const Search = () => {
 			noOptionsText={null}
 			fullWidth={true}
 			options={searchResults}
-			getOptionLabel={(option) => getLabel(option)}
+			getOptionLabel={(option) => getSeriesLabel(option)}
 			filterOptions={(options) => options}
 			inputValue={userInput}
 			onInputChange={(event, value) => {

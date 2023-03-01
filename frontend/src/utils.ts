@@ -4,6 +4,8 @@ export const getSeriesLabel = (seriesInfo: SeriesInfo) => {
 		return primary_title
 	} else if (end_year == null) {
 		return `${primary_title} (${start_year}–)`
+	} else if (start_year === end_year) {
+		return `${primary_title} (${start_year})`
 	} else {
 		return `${primary_title} (${start_year}–${end_year})`
 	}
