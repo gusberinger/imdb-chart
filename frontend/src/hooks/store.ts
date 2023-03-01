@@ -30,6 +30,11 @@ const initialState = {
 		mode: "line",
 		colorEnabled: true,
 		beginAtZero: false,
+		hidePilotEpisodes: false,
+		hideAdult: false,
+		disableHover: false,
+		showSeasonConnectionSegment: true,
+		clickablePoints: false,
 	} as ChartOptions,
 	theme: "light" as theme,
 }

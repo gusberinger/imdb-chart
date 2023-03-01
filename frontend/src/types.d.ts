@@ -37,4 +37,9 @@ interface ChartOptions {
 	mode: mode
 	colorEnabled: boolean
 	beginAtZero: boolean
+	hidePilotEpisodes: boolean
+	hideAdult: boolean
+	disableHover: boolean
+	showSeasonConnectionSegment: boolean
+	clickablePoints: boolean
 }
