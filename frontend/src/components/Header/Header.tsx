@@ -4,6 +4,7 @@ import { useStore } from "../../hooks/store"
 import { getSeriesLabel } from "../../utils"
 import ThemeChanger from "../ThemeChanger/ThemeChanger"
 import BarChartIcon from "@mui/icons-material/BarChart"
+import SettingsIcon from "../SettingsIcon/SettingsIcon"
 
 const Header = () => {
 	const showInfo = useStore((state) => state.showInfo)
@@ -22,8 +23,9 @@ const Header = () => {
 						</Typography>
 					</Stack>
 					<Typography variant="h6">{getSeriesLabel(showInfo)}</Typography>
-					<Stack direction={"row"} spacing={2}>
+					<Stack direction={"row"} spacing={2} alignItems="center">
 						<ThemeChanger />
+						<SettingsIcon />
 						{isLoadingDetails ? <CircularProgress color="secondary" /> : null}
 					</Stack>
 				</Container>
