@@ -102,10 +102,7 @@ const SeriesChart = () => {
 						},
 						title: {
 							display: true,
-							text:
-								options.y_axis === "rating"
-									? `${showTitle} - Episode Ratings`
-									: `${showTitle} - Episode Votes`,
+							text: options.y_axis === "rating" ? `Episode Ratings` : `Episode Votes`,
 						},
 						tooltip: {
 							callbacks: {

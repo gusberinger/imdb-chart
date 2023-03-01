@@ -10,6 +10,9 @@ export const lightTheme = createTheme({
 
 export const darkTheme = createTheme({
 	palette: {
+		primary: {
+			main: "#2d3338",
+		},
 		background: {
 			default: "#2d3338",
 		},
