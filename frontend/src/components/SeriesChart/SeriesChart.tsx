@@ -79,7 +79,8 @@ const SeriesChart = () => {
 				width={1000}
 				height={500}
 				data={{
-					labels: airDateLabels,
+					// Typescript is weird about this.
+					labels: labels as number[],
 					datasets: [
 						{
 							label: "Episode Rating",
