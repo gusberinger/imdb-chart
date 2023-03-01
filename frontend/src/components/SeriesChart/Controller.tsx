@@ -1,12 +1,11 @@
 import React from "react"
-import { Button, ButtonGroup, CircularProgress } from "@mui/material"
+import { Button, ButtonGroup } from "@mui/material"
 import { useStore } from "../../hooks/store"
 
 const Controller = () => {
 	const chartOptions = useStore((state) => state.chartOptions)
 	const { y_axis, mode, colorEnabled, beginAtZero } = chartOptions
 	const setChartOptions = useStore((state) => state.setChartOptions)
-	const isLoadingDetails = useStore((state) => state.isLoadingDetails)
 
 	const modeText = () => {
 		if (mode === "point") return "Point"
@@ -62,7 +61,6 @@ const Controller = () => {
 					{colorEnabled ? "Color" : "No Color"}
 				</Button>
 			</ButtonGroup>
-			{isLoadingDetails ? <CircularProgress className="progress-bar" /> : <></>}
 		</>
 	)
 }
