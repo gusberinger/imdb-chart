@@ -4,7 +4,8 @@ import { useStore } from "../../hooks/store"
 
 const Controller = () => {
 	const chartOptions = useStore((state) => state.chartOptions)
-	const { y_axis, mode, colorEnabled, beginAtZero } = chartOptions
+	const isLoadingDetails = useStore((state) => state.isLoadingDetails)
+	const { y_axis, x_axis, mode, colorEnabled, beginAtZero } = chartOptions
 	const setChartOptions = useStore((state) => state.setChartOptions)
 
 	const modeText = () => {
@@ -25,6 +26,16 @@ const Controller = () => {
 					}}
 				>
 					{y_axis === "rating" ? "Rating" : "Votes"}
+				</Button>
+				<Button
+					variant="outlined"
+					color={x_axis === "air_date" ? "secondary" : "success"}
+					onClick={() => {
+						const nextXAxis = x_axis === "air_date" ? "episode_number" : "air_date"
+						setChartOptions({ ...chartOptions, x_axis: nextXAxis })
+					}}
+				>
+					{x_axis === "air_date" ? "Air Date" : "Episode Number"}
 				</Button>
 				<Button
 					variant="outlined"
