@@ -48,16 +48,7 @@ const SettingsIcon = () => {
 									setChartOptions({ ...chartOptions, hidePilotEpisodes: event.target.checked })
 								}}
 							/>
-							<Typography>Hide Pilot Episodes</Typography>
-						</Stack>
-						<Stack direction="row" alignItems="center">
-							<Switch
-								checked={chartOptions.hideAdult}
-								onChange={(event) => {
-									setChartOptions({ ...chartOptions, hideAdult: event.target.checked })
-								}}
-							/>
-							<Typography>Hide Adult Shows in Search</Typography>
+							<Typography>Hide Unaired Pilot Episodes</Typography>
 						</Stack>
 						<Stack direction="row" alignItems="center">
 							<Switch
@@ -67,15 +58,6 @@ const SettingsIcon = () => {
 								}}
 							/>
 							<Typography>Disable Hover Tooltip</Typography>
-						</Stack>
-						<Stack direction="row" alignItems="center">
-							<Switch
-								checked={chartOptions.clickablePoints}
-								onChange={(event) => {
-									setChartOptions({ ...chartOptions, clickablePoints: event.target.checked })
-								}}
-							/>
-							<Typography>Open IMDb When Clicking Points</Typography>
 						</Stack>
 					</Stack>
 				</Box>

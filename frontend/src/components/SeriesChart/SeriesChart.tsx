@@ -43,11 +43,9 @@ const SeriesChart = () => {
 	// If we are still loading details display episode number in the meantime
 	const realXAxis = options.x_axis === "air_date" && !isLoadingDetails ? "air_date" : "episode_number"
 
-	// const filteredEpisodes = episodes.filter(
-	// 	(episode) => !(options.hidePilotEpisodes && episode.episode_number === 0 && episode.season_number === 1)
-	// )
-
-	const filteredEpisodes = episodes
+	const filteredEpisodes = episodes.filter(
+		(episode) => !(options.hidePilotEpisodes && episode.episode_number === 0 && episode.season_number === 1)
+	)
 
 	if (filteredEpisodes.length === 0) return <div className="loading-screen">Loading...</div>
 
@@ -155,6 +153,7 @@ const SeriesChart = () => {
 							text: options.y_axis === "rating" ? `Episode Ratings` : `Episode Votes`,
 						},
 						tooltip: {
+							enabled: !options.disableHover,
 							callbacks: {
 								label: (ctx) => {
 									const index = ctx.dataIndex

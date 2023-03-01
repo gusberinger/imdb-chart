@@ -1,8 +1,7 @@
-import { AppBar, Container, Stack, Toolbar, Typography } from "@mui/material"
 import React from "react"
+import { AppBar, Container, Stack, Toolbar, Typography } from "@mui/material"
 import { useStore } from "../../hooks/store"
 import { getSeriesLabel } from "../../utils"
-import ThemeChanger from "../ThemeChanger/ThemeChanger"
 import BarChartIcon from "@mui/icons-material/BarChart"
 import SettingsIcon from "../SettingsIcon/SettingsIcon"
 
@@ -23,7 +22,6 @@ const Header = () => {
 					</Stack>
 					<Typography variant="h6">{getSeriesLabel(showInfo)}</Typography>
 					<Stack direction={"row"} spacing={2} alignItems="center" sx={{ flexShrink: 1 }}>
-						<ThemeChanger />
 						<SettingsIcon />
 					</Stack>
 				</Container>
