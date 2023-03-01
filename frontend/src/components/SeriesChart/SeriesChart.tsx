@@ -82,6 +82,13 @@ const SeriesChart = () => {
 									}
 									const idx = ctx.p0DataIndex
 									const episode = filteredEpisodes[idx]
+
+									if (options.showSeasonConnectionSegment) {
+										const nextEpisode = filteredEpisodes[idx + 1]
+										if (nextEpisode.season_number !== episode.season_number) {
+											return "rgba(0,0,0,0)"
+										}
+									}
 									const season = episode.season_number
 									const color = COLOR_PALLETE[season % COLOR_PALLETE.length]
 									return color
