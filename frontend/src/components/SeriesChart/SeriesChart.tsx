@@ -35,15 +35,19 @@ const SeriesChart = () => {
 	const options = useStore((state) => state.chartOptions)
 	const episodes = useStore((state) => state.episodes)
 
-	if (episodes.length === 0) return <div className="loading-screen">Loading...</div>
+	const filteredEpisodes = episodes.filter(
+		(episode) => !(options.hidePilotEpisodes && episode.episode_number === 0 && episode.season_number === 1)
+	)
 
-	const labels = episodes.map((_episode, idx) => idx)
-	const ratings = episodes.map((episode) => episode.average_rating)
-	const votes = episodes.map((episode) => episode.num_votes)
+	if (filteredEpisodes.length === 0) return <div className="loading-screen">Loading...</div>
+
+	const labels = filteredEpisodes.map((_episode, idx) => idx)
+	const ratings = filteredEpisodes.map((episode) => episode.average_rating)
+	const votes = filteredEpisodes.map((episode) => episode.num_votes)
 
 	const getColorFromCtx = (ctx: ScriptableContext<"line">) => {
 		const index = ctx.dataIndex
-		const episode = episodes[index]
+		const episode = filteredEpisodes[index]
 		const value = episode.season_number
 		const color = COLOR_PALLETE[value % COLOR_PALLETE.length]
 		return options.colorEnabled ? color : DEFAULT_COLOR
@@ -77,7 +81,7 @@ const SeriesChart = () => {
 										return DEFAULT_COLOR
 									}
 									const idx = ctx.p0DataIndex
-									const episode = episodes[idx]
+									const episode = filteredEpisodes[idx]
 									const season = episode.season_number
 									const color = COLOR_PALLETE[season % COLOR_PALLETE.length]
 									return color
@@ -107,13 +111,13 @@ const SeriesChart = () => {
 							callbacks: {
 								label: (ctx) => {
 									const index = ctx.dataIndex
-									const episode = episodes[index]
+									const episode = filteredEpisodes[index]
 									const value = episode.primary_title
 									return value == null ? "[No Title]" : value
 								},
 								afterBody: (tooltipInfo) => {
 									const index = tooltipInfo[0].dataIndex
-									const episode = episodes[index]
+									const episode = filteredEpisodes[index]
 									let message = `Season ${episode.season_number} Episode ${episode.episode_number}`
 									message += `\n${episode.average_rating}/10`
 									message += `\n${episode.num_votes} votes`
