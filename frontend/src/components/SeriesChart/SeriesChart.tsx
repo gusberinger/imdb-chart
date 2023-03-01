@@ -1,12 +1,15 @@
 import React from "react"
 import { Line } from "react-chartjs-2"
 import Chart from "chart.js/auto"
-import { CategoryScale, LinearScale, ScriptableContext } from "chart.js"
+import { CategoryScale, LinearScale, ScriptableContext, TimeScale } from "chart.js"
 import { COLOR_PALLETE, DEFAULT_COLOR } from "../../constants/theme"
 import { useStore } from "../../hooks/store"
+import "chartjs-adapter-date-fns"
+import { enUS } from "date-fns/locale"
 
 Chart.register(CategoryScale)
 Chart.register(LinearScale)
+Chart.register(TimeScale)
 
 function breakStringByWidth(str: string, max_width: number) {
 	const words = str.split(" ")
@@ -34,14 +37,22 @@ function breakStringByWidth(str: string, max_width: number) {
 const SeriesChart = () => {
 	const options = useStore((state) => state.chartOptions)
 	const episodes = useStore((state) => state.episodes)
+	const isLoadingDetails = useStore((state) => state.isLoadingDetails)
 
-	const filteredEpisodes = episodes.filter(
-		(episode) => !(options.hidePilotEpisodes && episode.episode_number === 0 && episode.season_number === 1)
-	)
+	// What we really display on the x axis
+	// If we are still loading details display episode number in the meantime
+	const realXAxis = options.x_axis === "air_date" && !isLoadingDetails ? "air_date" : "episode_number"
+
+	// const filteredEpisodes = episodes.filter(
+	// 	(episode) => !(options.hidePilotEpisodes && episode.episode_number === 0 && episode.season_number === 1)
+	// )
+
+	const filteredEpisodes = episodes
 
 	if (filteredEpisodes.length === 0) return <div className="loading-screen">Loading...</div>
 
-	const labels = filteredEpisodes.map((_episode, idx) => idx)
+	const episodeNumberLabels = filteredEpisodes.map((_episode, idx) => idx)
+	const airDateLabels = filteredEpisodes.map((episode) => episode.air_date) as Date[]
 	const ratings = filteredEpisodes.map((episode) => episode.average_rating)
 	const votes = filteredEpisodes.map((episode) => episode.num_votes)
 
@@ -56,13 +67,19 @@ const SeriesChart = () => {
 	const lineEnabled = options.mode === "line" || options.mode === "both"
 	const pointsEnabled = options.mode === "point" || options.mode === "both"
 
+	if (isLoadingDetails) {
+		console.info("labels", filteredEpisodes)
+	}
+
+	const labels = realXAxis === "air_date" ? airDateLabels : episodeNumberLabels
+
 	return (
 		<div className="chart-container">
 			<Line
 				width={1000}
 				height={500}
 				data={{
-					labels: labels,
+					labels: airDateLabels,
 					datasets: [
 						{
 							label: "Episode Rating",
@@ -106,6 +123,27 @@ const SeriesChart = () => {
 							max: options.y_axis === "rating" ? 10 : undefined,
 							beginAtZero: options.beginAtZero,
 						},
+						x:
+							realXAxis === "air_date"
+								? {
+										type: "time",
+										adapters: {
+											date: {
+												locale: enUS,
+											},
+										},
+										time: {
+											unit: "month",
+											displayFormats: {
+												quarter: "MMM YYYY",
+											},
+										},
+										// eslint-disable-next-line no-mixed-spaces-and-tabs
+								  }
+								: {
+										// type: "linear",
+										// eslint-disable-next-line no-mixed-spaces-and-tabs
+								  },
 					},
 					plugins: {
 						legend: {
