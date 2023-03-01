@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client"
 import App from "./App"
 import "./index.css"
 
-const StrictMode = false
+const StrictMode = true
 
 if (StrictMode) {
 	ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
