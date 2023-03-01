@@ -2,8 +2,8 @@ interface EpisodeInfo {
 	tconst: string
 	season_number: number
 	episode_number: number
-	average_rating: number | null
-	num_votes: numbe | null
+	average_rating: number
+	num_votes: number
 	primary_title: string | null
 	start_year: number | null
 	end_year: number | null
