@@ -9,7 +9,6 @@ import axios from "axios"
 import { GlobalStyles, ThemeProvider } from "@mui/material"
 
 import { lightTheme, darkTheme } from "./themes/themes"
-import ThemeChanger from "./components/ThemeChanger/ThemeChanger"
 import SeriesChart from "./components/SeriesChart/SeriesChart"
 import Header from "./components/Header/Header"
 
