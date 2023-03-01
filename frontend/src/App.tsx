@@ -11,6 +11,7 @@ import { GlobalStyles, ThemeProvider } from "@mui/material"
 import { lightTheme, darkTheme } from "./themes/themes"
 import ThemeChanger from "./components/ThemeChanger/ThemeChanger"
 import SeriesChart from "./components/SeriesChart/SeriesChart"
+import Header from "./components/Header/Header"
 
 function App() {
 	const showInfo = useStore((state) => state.showInfo)
@@ -70,8 +71,8 @@ function App() {
 					},
 				}}
 			/>
+			<Header />
 			<div className="app-container">
-				<ThemeChanger />
 				<div className="app-element search">
 					<Search />
 				</div>
