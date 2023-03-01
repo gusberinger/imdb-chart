@@ -72,6 +72,18 @@ const SeriesChart = () => {
 							pointRadius: pointsEnabled ? 4 : 0,
 							borderCapStyle: "square",
 							tension: 0.1,
+							segment: {
+								borderColor: (ctx) => {
+									if (!options.colorEnabled) {
+										return DEFAULT_COLOR
+									}
+									const idx = ctx.p0DataIndex
+									const episode = episodes[idx]
+									const season = episode.season_number
+									const color = COLOR_PALLETE[season % COLOR_PALLETE.length]
+									return color
+								},
+							},
 						},
 					],
 				}}
