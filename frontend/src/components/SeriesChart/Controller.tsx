@@ -14,6 +14,8 @@ const Controller = () => {
 		else return "Line/Point"
 	}
 
+	const airDateButtonLabel = isLoadingDetails ? "Air Date (Loading)" : "Air Date"
+
 	return (
 		<>
 			<ButtonGroup variant="outlined" color="success">
@@ -35,7 +37,7 @@ const Controller = () => {
 						setChartOptions({ ...chartOptions, x_axis: nextXAxis })
 					}}
 				>
-					{x_axis === "air_date" ? "Air Date" : "Episode Number"}
+					{x_axis === "air_date" ? airDateButtonLabel : "Episode Number"}
 				</Button>
 				<Button
 					variant="outlined"
