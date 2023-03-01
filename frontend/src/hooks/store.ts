@@ -30,7 +30,7 @@ const initialState = {
 		mode: "line",
 		colorEnabled: true,
 		beginAtZero: false,
-		hidePilotEpisodes: false,
+		hidePilotEpisodes: true,
 		hideAdult: false,
 		disableHover: false,
 		showSeasonConnectionSegment: true,
