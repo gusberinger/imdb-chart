@@ -46,7 +46,8 @@ def search(db: Session, query: str):
     SELECT tconst, primary_title, start_year, end_year, num_votes
     FROM search
     ORDER BY
-    jarowinkler(:query, searchable_title) DESC
+        jarowinkler(:query, searchable_title) DESC,
+        num_votes DESC
     LIMIT 10
     """
     return db.execute(text(sql), {"query": query}).fetchall()
