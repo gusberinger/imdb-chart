@@ -96,6 +96,7 @@ const SeriesChart = () => {
 					maintainAspectRatio: false,
 					scales: {
 						y: {
+							max: options.y_axis === "rating" ? 10 : undefined,
 							beginAtZero: options.beginAtZero,
 						},
 					},
