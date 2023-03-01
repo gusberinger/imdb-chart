@@ -1,6 +1,6 @@
 import { create } from "zustand"
+import { mountStoreDevtool } from "simple-zustand-devtools"
 import breakingBad from "../assets/json/breakingbad.json"
-
 interface SeriesStore {
 	showInfo: SeriesInfo
 	episodes: EpisodeInfo[]
@@ -64,6 +64,7 @@ export const useStore = create<SeriesStore>((set) => ({
 		set({ episodes: episodes })
 	},
 	setIsLoadingDetails: (isLoadingDetails: boolean) => {
+		console.log("setting isLoadingDetails to", isLoadingDetails)
 		set({ isLoadingDetails: isLoadingDetails })
 	},
 	setChartOptions: (chartOptions: ChartOptions) => {
@@ -75,3 +76,14 @@ export const useStore = create<SeriesStore>((set) => ({
 		localStorage.setItem("theme", theme)
 	},
 }))
+
+// vite check for development
+// if ( "development") {
+// 	mountStoreDevtool("Store", useStore)
+// }
+
+if (import.meta.env.DEV) {
+	mountStoreDevtool("Store", useStore)
+} else {
+	console.log("not in dev")
+}
