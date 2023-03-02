@@ -1,15 +1,17 @@
+import os
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
 import crud, models, schemas
 from database import sessionLocal, engine
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-origins = [
+dev_origins = [
     "http://127.0.0.1:5173",
     "https://127.0.0.1:5173/",
     "http://localhost:5173",
@@ -23,6 +25,15 @@ origins = [
     "localhost:4173",
     "127.0.0.1:4173",
 ]
+
+prod_origins = [
+    "https://tvcharts.lol",
+    "https://www.tvcharts.lol",
+    "https://tvcharts.lol/",
+    "https://www.tvcharts.lol/",
+]
+load_dotenv()
+origins = dev_origins if os.environ.get("APP_ENV") == "development" else prod_origins
 
 app.add_middleware(
     CORSMiddleware,
