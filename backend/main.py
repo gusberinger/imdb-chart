@@ -27,10 +27,8 @@ dev_origins = [
 ]
 
 prod_origins = [
-    "https://tvcharts.lol",
-    "https://www.tvcharts.lol",
-    "https://tvcharts.lol/",
-    "https://www.tvcharts.lol/",
+    "https://imdb-frontend.onrender.com/",
+    "http://imdb-frontend.onrender.com/"
 ]
 load_dotenv()
 origins = dev_origins if os.environ.get("APP_ENV") == "development" else prod_origins
