@@ -8,13 +8,18 @@ const Search = () => {
 	const [searchResults, setSearchResults] = useState<SeriesInfo[]>([])
 	const [userInput, setUserInput] = useState("")
 	const [currentAbortController, setCurrentAbortController] = useState<AbortController>(new AbortController())
-	const [timeSinceLastCall, setTimeSinceLastCall] = useState(5000)
+	const [timeAtLastCall, setTimeAtLastCall] = useState(Date.now())
 
 	const getSearchResults = async (input: string) => {
 		if (input === "") {
 			setSearchResults([])
 			return
 		}
+		if (Date.now() - timeAtLastCall < 500) {
+			return
+		}
+
+		setTimeAtLastCall(Date.now())
 
 		currentAbortController.abort()
 		const newAbortController = new AbortController()
