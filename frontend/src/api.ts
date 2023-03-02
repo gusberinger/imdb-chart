@@ -1,7 +1,6 @@
 import axios from "axios"
 
-const APP_ENV = import.meta.env.VITE_APP_ENV
-const baseURL = APP_ENV === "production" ? "https://tvcharts.lol:8000" : "http://localhost:8000"
+const baseURL = import.meta.env.VITE_API_URL
 
 export const api = axios.create({
 	baseURL: baseURL,
