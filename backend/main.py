@@ -1,38 +1,26 @@
 import os
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
-
 import crud, models, schemas
 from database import sessionLocal, engine
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
 models.Base.metadata.create_all(bind=engine)
-
 app = FastAPI()
 
 dev_origins = [
-    "http://127.0.0.1:5173",
-    "https://127.0.0.1:5173/",
     "http://localhost:5173",
-    "https://localhost:5173",
-    "localhost:5173",
-    "127.0.0.1:5173",
-    "http://127.0.0.1:4173",
-    "https://127.0.0.1:4173/",
-    "http://localhost:4173",
-    "https://localhost:4173",
-    "localhost:4173",
-    "127.0.0.1:4173",
+    "http://127.0.0.1:5173",
 ]
 
 prod_origins = [
-    "https://imdb-frontend.onrender.com/",
-    "http://imdb-frontend.onrender.com/"
+    "http://imdb-frontend.onrender.com",
+    "https://imdb-frontend.onrender.com",
 ]
+
 load_dotenv()
 origins = dev_origins if os.environ.get("APP_ENV") == "development" else prod_origins
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -59,7 +47,6 @@ def get_episodes(parent_tconst: str, db: Session = Depends(get_db)):
     return db_episodes
 
 
-# @app.get("/search/{query}")
 @app.get("/search/{query}", response_model=list[schemas.Search])
 def search(query: str, db: Session = Depends(get_db)):
     return crud.search(db, query=query)
@@ -67,5 +54,4 @@ def search(query: str, db: Session = Depends(get_db)):
 
 @app.get("/detailed_info/{parent_tconst}", response_model=schemas.DetailedInfo)
 def get_detailed_info(parent_tconst: str, db: Session = Depends(get_db)):
-    # remove tt from parent_tconst
     return crud.get_detailed_info(db, parent_tconst=parent_tconst)
