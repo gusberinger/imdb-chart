@@ -17,6 +17,8 @@ dev_origins = [
 prod_origins = [
     "http://imdb-frontend.onrender.com",
     "https://imdb-frontend.onrender.com",
+    "http://imdb-frontend.onrender.com/",
+    "https://imdb-frontend.onrender.com/",
 ]
 
 load_dotenv()
