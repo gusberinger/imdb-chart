@@ -7,13 +7,19 @@ import { getSeriesLabel } from "../../utils"
 const Search = () => {
 	const [searchResults, setSearchResults] = useState<SeriesInfo[]>([])
 	const [userInput, setUserInput] = useState("")
+	const [currentAbortController, setCurrentAbortController] = useState<AbortController>(new AbortController())
+	const [timeSinceLastCall, setTimeSinceLastCall] = useState(5000)
 
 	const getSearchResults = async (input: string) => {
 		if (input === "") {
 			setSearchResults([])
 			return
 		}
-		const results = await search_title(input)
+
+		currentAbortController.abort()
+		const newAbortController = new AbortController()
+		setCurrentAbortController(newAbortController)
+		const results = await search_title(input, newAbortController)
 		setSearchResults(results)
 	}
 
@@ -31,11 +37,13 @@ const Search = () => {
 			filterOptions={(options) => options}
 			inputValue={userInput}
 			onInputChange={(event, value) => {
+				// when user types
 				if (event && event.type !== "change") return
 				setUserInput(value)
 				getSearchResults(value)
 			}}
 			onChange={(event, value) => {
+				// when show selected
 				if (value == null || event.type !== "click") return
 				setShow(value)
 				setUserInput("")

@@ -6,8 +6,8 @@ export const api = axios.create({
 	baseURL: baseURL,
 })
 
-export const search_title = async (title: string) => {
-	const { data } = await api.get<SeriesInfo[]>(`/search/${title}`)
+export const search_title = async (title: string, controller: AbortController) => {
+	const { data } = await api.get<SeriesInfo[]>(`/search/${title}`, { signal: controller.signal })
 	return data
 }
 
