@@ -3,7 +3,7 @@ import { AppBar, Container, Stack, Toolbar, Typography } from "@mui/material"
 import { useStore } from "../../hooks/store"
 import { getSeriesLabel } from "../../utils"
 import BarChartIcon from "@mui/icons-material/BarChart"
-import SettingsIcon from "../SettingsIcon/SettingsIcon"
+import AdvancedSettings from "../AdvancedSettings/AdvancedSettings"
 
 const Header = () => {
 	const showInfo = useStore((state) => state.showInfo)
@@ -22,7 +22,7 @@ const Header = () => {
 					</Stack>
 					<Typography variant="h6">{getSeriesLabel(showInfo)}</Typography>
 					<Stack direction={"row"} spacing={2} alignItems="center" sx={{ flexShrink: 1 }}>
-						<SettingsIcon />
+						<AdvancedSettings />
 					</Stack>
 				</Container>
 			</Toolbar>

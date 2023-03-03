@@ -4,7 +4,7 @@ import { Box, Modal, Stack, Switch, Typography } from "@mui/material"
 import { IconButton } from "@mui/material"
 import { useStore } from "../../hooks/store"
 
-const SettingsIcon = () => {
+const AdvancedSettings = () => {
 	const [open, setOpen] = useState(false)
 	const chartOptions = useStore((state) => state.chartOptions)
 	const setChartOptions = useStore((state) => state.setChartOptions)
@@ -66,4 +66,4 @@ const SettingsIcon = () => {
 	)
 }
 
-export default SettingsIcon
+export default AdvancedSettings
