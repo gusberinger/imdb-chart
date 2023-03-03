@@ -24,9 +24,6 @@ prod_origins = [
 load_dotenv()
 origins = dev_origins if os.environ.get("APP_ENV") == "development" else prod_origins
 
-if os.environ.get("APP_ENV") == "development":
-    raise Exception("APP_ENV is set to development")
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
