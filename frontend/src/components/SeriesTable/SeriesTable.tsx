@@ -27,7 +27,14 @@ const SeriesTable = () => {
 	const [page, setPage] = useState<number>(0)
 	const [rowsPerPage, setRowsPerPage] = useState<rowsPerPageOptions>(10)
 
-	const sortEpisodes = (): EpisodeInfo[] => {
+	const handleHeaderClick = (property: keyof EpisodeInfoExtended) => {
+		if (sortBy === property) {
+			setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+		}
+		setSortBy(property)
+	}
+
+	const sortEpisodes = (): EpisodeInfoExtended[] => {
 		const sortedEpisodes = [...episodes] as EpisodeInfoExtended[]
 		sortedEpisodes.forEach((episode, idx) => {
 			episode.cum_episode_number = idx + 1
@@ -35,9 +42,10 @@ const SeriesTable = () => {
 
 		if (sortBy === "cum_episode_number") {
 			if (sortOrder === "asc") {
-				return episodes
+				return sortedEpisodes
 			} else {
-				return episodes.reverse()
+				sortedEpisodes.reverse()
+				return sortedEpisodes
 			}
 		}
 
@@ -65,50 +73,61 @@ const SeriesTable = () => {
 
 	return (
 		<TableContainer component={Paper}>
-			<Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
+			<Table sx={{ minWidth: 500 }} aria-label="simple table" size="small">
 				<TableHead>
 					<TableRow>
 						<TableCell>Episode Title</TableCell>
 						<TableCell align="right">
-							<TableSortLabel active={sortBy === "cum_episode_number"} direction={sortOrder}>
+							<TableSortLabel
+								active={sortBy === "cum_episode_number"}
+								direction={sortOrder}
+								onClick={() => handleHeaderClick("cum_episode_number")}
+							>
 								Episode #
 							</TableSortLabel>
 						</TableCell>
+
 						<TableCell align="right">
-							<TableSortLabel active={sortBy === "primary_title"} direction={sortOrder}>
-								Designation
-							</TableSortLabel>
-						</TableCell>
-						<TableCell align="right">
-							<TableSortLabel active={sortBy === "average_rating"} direction={sortOrder}>
+							<TableSortLabel
+								active={sortBy === "average_rating"}
+								direction={sortOrder}
+								onClick={() => handleHeaderClick("average_rating")}
+							>
 								Rating
 							</TableSortLabel>
 						</TableCell>
 						<TableCell align="right">
-							<TableSortLabel active={sortBy === "num_votes"} direction={sortOrder}>
+							<TableSortLabel
+								active={sortBy === "num_votes"}
+								direction={sortOrder}
+								onClick={() => handleHeaderClick("num_votes")}
+							>
 								Votes
 							</TableSortLabel>
 						</TableCell>
 						<TableCell align="right">
-							<TableSortLabel active={sortBy === "air_date"} direction={sortOrder}>
+							<TableSortLabel
+								active={sortBy === "air_date"}
+								direction={sortOrder}
+								onClick={() => handleHeaderClick("air_date")}
+							>
 								Air Date
 							</TableSortLabel>
 						</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{sortedEpisodes.map((episode, idx) => {
+					{sortedEpisodes.map((episode) => {
 						const designation = `S${episode.season_number}E${episode.episode_number}`
 						return (
 							<TableRow key={episode.tconst} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
 								<TableCell component="th" scope="row">
-									{episode.primary_title}
+									{episode.primary_title} ({designation})
 								</TableCell>
-								<TableCell align="right">{idx + 1}</TableCell>
-								<TableCell align="right">{designation}</TableCell>
-								<TableCell align="right">{episode.air_date?.toLocaleDateString()}</TableCell>
+								<TableCell align="right">{episode.cum_episode_number}</TableCell>
 								<TableCell align="right">{episode.average_rating}</TableCell>
-								<TableCell align="right">{episode.num_votes}</TableCell>
+								<TableCell align="right">{episode.num_votes.toLocaleString()}</TableCell>
+								<TableCell align="right">{episode.air_date?.toLocaleDateString()}</TableCell>
 							</TableRow>
 						)
 					})}
