@@ -41,15 +41,6 @@ const Controller = () => {
 				</Button>
 				<Button
 					variant="outlined"
-					color={beginAtZero ? "secondary" : "success"}
-					onClick={() => {
-						setChartOptions({ ...chartOptions, beginAtZero: !beginAtZero })
-					}}
-				>
-					{beginAtZero ? "Begin at 0" : "Begin at min"}
-				</Button>
-				<Button
-					variant="outlined"
 					color={mode === "point" ? "secondary" : "success"}
 					onClick={() => {
 						// point -> line -> both -> point cycle

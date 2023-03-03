@@ -52,6 +52,15 @@ const AdvancedSettings = () => {
 						</Stack>
 						<Stack direction="row" alignItems="center">
 							<Switch
+								checked={chartOptions.beginAtZero}
+								onChange={(event) => {
+									setChartOptions({ ...chartOptions, beginAtZero: event.target.checked })
+								}}
+							/>
+							<Typography>Fix Ratings Y Axis Between 0 and 10</Typography>
+						</Stack>
+						<Stack direction="row" alignItems="center">
+							<Switch
 								checked={chartOptions.disableHover}
 								onChange={(event) => {
 									setChartOptions({ ...chartOptions, disableHover: event.target.checked })
