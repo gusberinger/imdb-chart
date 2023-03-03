@@ -9,11 +9,6 @@ import TableRow from "@mui/material/TableRow"
 import Paper from "@mui/material/Paper"
 import { TablePagination, TableSortLabel } from "@mui/material"
 
-// type TableHeaderPick = Pick<EpisodeInfo, "primary_title" | "air_date" | "average_rating" | "num_votes">
-// interface TableHeader extends TableHeaderPick {
-// 	cum_episode_number: number
-// }
-
 interface EpisodeInfoExtended extends EpisodeInfo {
 	cum_episode_number: number
 }
@@ -32,6 +27,7 @@ const SeriesTable = () => {
 			setSortOrder(sortOrder === "asc" ? "desc" : "asc")
 		}
 		setSortBy(property)
+		setPage(0)
 	}
 
 	const sortEpisodes = (): EpisodeInfoExtended[] => {
@@ -70,6 +66,7 @@ const SeriesTable = () => {
 	}
 
 	const sortedEpisodes = sortEpisodes()
+	const filteredEpisodes = sortedEpisodes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 
 	return (
 		<TableContainer component={Paper}>
@@ -117,7 +114,7 @@ const SeriesTable = () => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{sortedEpisodes.map((episode) => {
+					{filteredEpisodes.map((episode) => {
 						const designation = `S${episode.season_number}E${episode.episode_number}`
 						return (
 							<TableRow key={episode.tconst} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
@@ -133,7 +130,18 @@ const SeriesTable = () => {
 					})}
 				</TableBody>
 			</Table>
-			{/* <TablePagination rowsPerPageOptions={[10, 50, { value: -1, label: "All" }]} /> */}
+			<TablePagination
+				component="div"
+				page={page}
+				rowsPerPage={rowsPerPage}
+				count={sortedEpisodes.length}
+				onPageChange={(_event, newPage) => {
+					setPage(newPage)
+				}}
+				onRowsPerPageChange={(event) => {
+					setRowsPerPage(parseInt(event.target.value, 10) as rowsPerPageOptions)
+				}}
+			/>
 		</TableContainer>
 	)
 }
