@@ -68,6 +68,15 @@ const AdvancedSettings = () => {
 							/>
 							<Typography>Disable Chart Tooltip</Typography>
 						</Stack>
+						<Stack direction="row" alignItems="center">
+							<Switch
+								checked={chartOptions.disableTableHover}
+								onChange={(event) => {
+									setChartOptions({ ...chartOptions, disableTableHover: event.target.checked })
+								}}
+							/>
+							<Typography>Disable Table Tooltip</Typography>
+						</Stack>
 					</Stack>
 				</Box>
 			</Modal>

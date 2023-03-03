@@ -35,6 +35,7 @@ const initialState = {
 		disableChartHover: false,
 		showSeasonConnectionSegment: true,
 		clickablePoints: false,
+		disableTableHover: false,
 	} as ChartOptions,
 	theme: "light" as theme,
 }

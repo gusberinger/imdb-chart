@@ -18,6 +18,7 @@ type rowsPerPageOptions = 10 | 50 | -1
 const SeriesTable = () => {
 	const isLoadingDetails = useStore((state) => state.isLoadingDetails)
 	const episodes = useStore((state) => state.episodes)
+	const { disableTableHover } = useStore((state) => state.chartOptions)
 	const [sortBy, setSortBy] = useState<keyof EpisodeInfoExtended>("average_rating")
 	const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
 	const [page, setPage] = useState<number>(0)
@@ -119,11 +120,17 @@ const SeriesTable = () => {
 						const designation = `S${episode.season_number}E${episode.episode_number}`
 						return (
 							<TableRow key={episode.tconst} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-								<Tooltip title={episode.description}>
+								{disableTableHover ? (
 									<TableCell component="th" scope="row">
 										{episode.primary_title} ({designation})
 									</TableCell>
-								</Tooltip>
+								) : (
+									<Tooltip title={episode.description} hidden={disableTableHover}>
+										<TableCell component="th" scope="row">
+											{episode.primary_title} ({designation})
+										</TableCell>
+									</Tooltip>
+								)}
 								<TableCell align="right">{episode.cum_episode_number}</TableCell>
 								<TableCell align="right">{episode.average_rating}</TableCell>
 								<TableCell align="right">{episode.num_votes.toLocaleString()}</TableCell>
