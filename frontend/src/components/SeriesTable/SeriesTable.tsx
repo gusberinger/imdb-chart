@@ -16,6 +16,7 @@ interface EpisodeInfoExtended extends EpisodeInfo {
 type rowsPerPageOptions = 10 | 50 | -1
 
 const SeriesTable = () => {
+	const isLoadingDetails = useStore((state) => state.isLoadingDetails)
 	const episodes = useStore((state) => state.episodes)
 	const [sortBy, setSortBy] = useState<keyof EpisodeInfoExtended>("average_rating")
 	const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
@@ -108,7 +109,7 @@ const SeriesTable = () => {
 								direction={sortOrder}
 								onClick={() => handleHeaderClick("air_date")}
 							>
-								Air Date
+								{!isLoadingDetails ? "Air Date" : "Air Date (Loading)"}
 							</TableSortLabel>
 						</TableCell>
 					</TableRow>
