@@ -153,7 +153,7 @@ const SeriesChart = () => {
 							text: options.y_axis === "rating" ? `Episode Ratings` : `Episode Votes`,
 						},
 						tooltip: {
-							enabled: !options.disableHover,
+							enabled: !options.disableChartHover,
 							callbacks: {
 								label: (ctx) => {
 									const index = ctx.dataIndex

@@ -61,12 +61,12 @@ const AdvancedSettings = () => {
 						</Stack>
 						<Stack direction="row" alignItems="center">
 							<Switch
-								checked={chartOptions.disableHover}
+								checked={chartOptions.disableChartHover}
 								onChange={(event) => {
-									setChartOptions({ ...chartOptions, disableHover: event.target.checked })
+									setChartOptions({ ...chartOptions, disableChartHover: event.target.checked })
 								}}
 							/>
-							<Typography>Disable Hover Tooltip</Typography>
+							<Typography>Disable Chart Tooltip</Typography>
 						</Stack>
 					</Stack>
 				</Box>

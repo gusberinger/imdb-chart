@@ -39,7 +39,7 @@ interface ChartOptions {
 	beginAtZero: boolean
 	hidePilotEpisodes: boolean
 	hideAdult: boolean
-	disableHover: boolean
+	disableChartHover: boolean
 	showSeasonConnectionSegment: boolean
 	clickablePoints: boolean
 }

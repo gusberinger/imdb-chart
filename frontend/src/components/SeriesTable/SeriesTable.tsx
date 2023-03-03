@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer"
 import TableHead from "@mui/material/TableHead"
 import TableRow from "@mui/material/TableRow"
 import Paper from "@mui/material/Paper"
-import { TablePagination, TableSortLabel } from "@mui/material"
+import { TablePagination, TableSortLabel, Tooltip } from "@mui/material"
 
 interface EpisodeInfoExtended extends EpisodeInfo {
 	cum_episode_number: number
@@ -119,9 +119,11 @@ const SeriesTable = () => {
 						const designation = `S${episode.season_number}E${episode.episode_number}`
 						return (
 							<TableRow key={episode.tconst} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-								<TableCell component="th" scope="row">
-									{episode.primary_title} ({designation})
-								</TableCell>
+								<Tooltip title={episode.description}>
+									<TableCell component="th" scope="row">
+										{episode.primary_title} ({designation})
+									</TableCell>
+								</Tooltip>
 								<TableCell align="right">{episode.cum_episode_number}</TableCell>
 								<TableCell align="right">{episode.average_rating}</TableCell>
 								<TableCell align="right">{episode.num_votes.toLocaleString()}</TableCell>

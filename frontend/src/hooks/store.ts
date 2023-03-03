@@ -32,7 +32,7 @@ const initialState = {
 		beginAtZero: false,
 		hidePilotEpisodes: true,
 		hideAdult: false,
-		disableHover: false,
+		disableChartHover: false,
 		showSeasonConnectionSegment: true,
 		clickablePoints: false,
 	} as ChartOptions,
